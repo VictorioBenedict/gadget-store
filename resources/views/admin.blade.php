@@ -9,6 +9,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Push a new state to the history stack on page load
+        window.onload = function() {
+            history.pushState(null, document.title, window.location.href);
+        };
+
+        // Prevent going back to the previous state
+        window.onpopstate = function() {
+            history.pushState(null, document.title, window.location.href);
+        };
+    </script>
     <title>Login</title>
     <style>
         *{
@@ -45,18 +57,25 @@
         <div class="row justify-content-center mt-5">
             <div class="col col-md-8 mt-5">
                 <div class="text-center"> 
-                    @if (session('error'))
-                    <p class="alert fw-bold" style="font-size: 0.875rem;">
-                        {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </p>
-                    @endif
-                    @if (session('success'))
-                    <p class="alert fw-bold" style="font-size: 0.875rem;">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </p>
-                    @endif
+                    <script>
+                        @if (session('error'))
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: '{{ session('error') }}',
+                                confirmButtonText: 'Close'
+                            });
+                        @endif
+
+                        @if (session('success'))
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: '{{ session('success') }}',
+                                confirmButtonText: 'Close'
+                            });
+                        @endif
+                    </script>
                 </div>
                 <div class="card p-5 border-2 border-black mt-5">
                     <div class="title text-center mt-3"><h3>Admin Login</h3></div>    
@@ -73,9 +92,7 @@
                             </div>
                             <div class="input-text">
                                 <button class="btn btn-primary mt-2 border-2 text-black" type="submit">Login</button>
-                                <a href="{{ route('register') }}" class="btn btn-primary mt-2 border-2 text-black">User Register</a>
-                                <a href="{{ route('admin') }}" class="btn btn-primary mt-2 border-2 text-black">Admin Login</a>
-                                <a href="{{ route('adminregister') }}" class="btn btn-primary mt-2 border-2 text-black">Admin Register</a>
+                                <a href="{{ route('login') }}" class="btn btn-primary mt-2 border-2 text-black">Back</a>
                             </div>
                         </form>                        
                     </div>
@@ -84,10 +101,4 @@
         </div>
     </div>
 </body>
-<script>
-    history.pushState(null, null, location.href);
-    window.onpopstate = function () {
-        history.go(1);
-    };
-</script>
 </html>

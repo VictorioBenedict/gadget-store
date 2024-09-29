@@ -50,6 +50,7 @@ Route::get('/success', [PostController::class, 'success'])->name('success')->mid
 Route::delete('/truncate', [PostController::class, 'truncateOrders'])->name('truncate');
 
 Route::delete('/cancelorders', [PostController::class, 'cancelorders'])->name('cancelorders')->middleware(['auth','order']);;
+Route::delete('/deleteorders/{id}', [PostController::class, 'deleteorders'])->name('deleteorders')->middleware(['auth']);
 
 Route::get('/adminregister',[AdminController::class,'adminregister'])->name('adminregister');
 Route::post('/adminstore',[AdminController::class,'adminstore'])->name('adminstore');

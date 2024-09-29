@@ -9,32 +9,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Login</title>
     <style>
-        *{
+        * {
             color: #FFB200;
             font-family: "Bebas Neue", sans-serif;
             font-weight: 400;
             font-style: normal;
         }
-        body{
-            background-image: url('assets/background.jpg'); /* Specify the path to your background image */
-            background-size: cover; /* Cover the entire background */
-            background-position: center; /* Center the background image */
-            background-repeat: no-repeat; /* Prevent background image from repeating */
+        body {
+            background-image: url('assets/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
-        .card{
+        .card {
             position: relative;
             padding: 1rem;
             border: 2px solid black;
             overflow: hidden;
             border-radius: 10px;
-            background-image: url('assets/backgroundlogin.jpg'); /* Replace with your background image */
+            background-image: url('assets/backgroundlogin.jpg');
             background-size: cover;
             background-position: center;
-            z-index: 0; /* Ensure the background image is behind other content */
+            z-index: 0;
         }
-        .form-group{
+        .form-group {
             color: black;
             margin-top: 8px;
         }
@@ -44,18 +46,26 @@
     <div class="container mt-5">
         <div class="row justify-content-center mt-5">
             <div class="col col-md-8 mt-5">
-                <div class="text-center"> 
+                <div class="text-center">
                     @if (session('error'))
-                    <p class="alert fw-bold" style="font-size: 0.875rem;">
-                        {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </p>
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: '{{ session('error') }}',
+                                confirmButtonText: 'OK'
+                            });
+                        </script>
                     @endif
                     @if (session('success'))
-                    <p class="alert fw-bold" style="font-size: 0.875rem;">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </p>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: '{{ session('success') }}',
+                                confirmButtonText: 'OK'
+                            });
+                        </script>
                     @endif
                 </div>
                 <div class="card p-5 border-2 border-black mt-5">
@@ -73,9 +83,8 @@
                             </div>
                             <div class="input-text">
                                 <button class="btn btn-primary mt-2 border-2 text-black" type="submit">Login</button>
-                                <a href="{{route('register')}}" class="btn btn-primary mt-2 border-2 text-black">User Register</a>
-                                <a href="{{route('admin')}}" class="btn btn-primary mt-2 border-2 text-black">Admin Login</a>
-                                <a href="{{route('adminregister')}}" class="btn btn-primary mt-2 border-2 text-black">Admin Register</a>
+                                <a href="{{ route('register') }}" class="btn btn-primary mt-2 border-2 text-black">User Register</a>
+                                <a href="{{ route('admin') }}" class="btn btn-primary mt-2 border-2 text-black">Admin Login</a>
                             </div>
                         </form>                        
                     </div>

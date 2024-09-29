@@ -9,6 +9,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script>
+        // Push a new state to the history stack on page load
+        window.onload = function() {
+            history.pushState(null, document.title, window.location.href);
+        };
+
+        // Prevent going back to the previous state
+        window.onpopstate = function() {
+            history.pushState(null, document.title, window.location.href);
+        };
+    </script>
     <title>Admin Dashboard</title>
     <style>
         *{
@@ -63,7 +74,17 @@
                         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
-                @endif          
+                @endif     
+                @if(session('error'))
+                <div class="toast align-items-center mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                    <div class="d-flex">
+                        <div class="toast-body text-danger"> 
+                            {{ session('error') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+                @endif       
                 <div class="start justify-content-center">
                    <div class="row mt-2">
                     <div class="col-md-6">

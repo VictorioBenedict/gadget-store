@@ -9,17 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Gadget Store</title>
     <style>
-        *{
+        * {
             font-family: "Bebas Neue", sans-serif;
             font-weight: 400;
             font-style: normal;
         }
-        body{
+        body {
             background-color: #A0937D;
         }
-        table{
+        table {
             background-color: #A0937D;
         }
     </style>
@@ -27,36 +29,35 @@
 <body class="bg-secondary">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#" style="pointer-events: none; cursor: default;">Welcome, {{ $loggedInUser }}!</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{{ route('index') }}">Home</a>
-            </li>
-            <li class="nav-item">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf <!-- CSRF Protection -->
-                </form>
-                
-                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    Logout
-                </a>                     
-            </li>
-        </ul>
-        <div class="d-flex justify-content-end">
-            <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
-                <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
-                <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
-                    {{ count((array) session('cart')) }}
-                    <span class="visually-hidden">items in cart</span>
-                </span>
-            </a>
-            <a class="btn btn-outline-light position-relative ms-2 cart-link" href="{{ route('order') }}">
-                <i class="fa fa-file-alt me-1" aria-hidden="true"></i> Order Details
-            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="pointer-events: none; cursor: default;">Welcome  {{ $loggedInUser }}!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ route('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>                     
+                </li>
+            </ul>
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
+                    <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
+                    <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+                        {{ count((array) session('cart')) }}
+                        <span class="visually-hidden">items in cart</span>
+                    </span>
+                </a>
+                <a class="btn btn-outline-light position-relative ms-2 cart-link" href="{{ route('order') }}">
+                    <i class="fa fa-file-alt me-1" aria-hidden="true"></i> Order Details
+                </a>
+            </div>
         </div>
-      </div>
     </nav>  
 
     <div class="container">
@@ -72,7 +73,7 @@
                     <button class="btn btn-outline-dark">Smartphone</button>
                 </a>
                 <a href="{{ route('digitalcamera') }}">
-                    <button class="btn btn-outline-dark">Digital Camera </button>
+                    <button class="btn btn-outline-dark">Digital Camera</button>
                 </a>
                 <a href="{{ route('personalcomputer') }}">
                     <button class="btn btn-outline-dark">Personal Computer</button>
@@ -80,42 +81,62 @@
                 <a href="{{ route('television') }}">
                     <button class="btn btn-outline-dark">Television</button>
                 </a>
-            </div> 
+            </div>
+
             <div class="text-center"> 
                 @if (session('success'))
-                <p class="alert fw-bold" style="font-size: 0.875rem;">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </p>
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: '{{ session('success') }}',
+                            confirmButtonText: 'OK'
+                        });
+                    </script>
+                @endif
+
+                @if (session('error'))
+                    <script>
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Already in Cart',
+                            text: 'This product has already been added to your cart!',
+                            confirmButtonText: 'OK'
+                        });
+                    </script>
                 @endif
             </div>   
+
             <div class="container mt-4">
                 <div class="d-flex justify-content-center">
                     <form class="d-flex w-50 gap-2" action="{{ route('index') }}" method="GET">
-                            <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}">
-                            <button class="btn btn-light border border-black" type="submit">Search</button>
+                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}">
+                        <button class="btn btn-light border border-black" type="submit">Search</button>
                     </form>
                 </div>
             </div>         
+
             @if($product->isEmpty())
                 <div class="col-12 text-center mt-4">
-                    <p class="text-black">No products found for your search: "{{ $query }}"</p>
+                    @if($query && $product->isEmpty())
+                        <p class="text-black">No products found for your search: "{{ $query }}"</p>
+                    @endif                
                 </div>
             @else
-            @foreach ($product as $product)
-            <div class="col-md-3 mb-4 mt-3" style="width: 250px;">
-                <div class="card bg-black text-white mt-5">
-                    <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-center">{{ $product->name }}</h5>
-                        <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>
-                        <div class="text-center">
-                            <a href="{{route('addtocart',$product->id)}}" class="btn btn-outline-light">Add to Cart</a>
+                @foreach ($product as $product)
+                    <div class="col-md-3 mb-4 mt-3" style="width: 250px;">
+                        <div class="card bg-black text-white mt-5">
+                            <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-center">{{ $product->name }}</h5>
+                                <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>
+                                <div class="text-center">
+                                    <a href="{{ route('addtocart', $product->id) }}" class="btn btn-outline-light">Add to Cart</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            @endforeach
+                @endforeach
             @endif
         </div>
     </div>

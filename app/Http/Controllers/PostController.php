@@ -108,12 +108,10 @@ class PostController extends Controller
         $product->name = $request->name;
         $product->category = $request->category;
         $product->description = $request->description;
-        $product->image = $imageName; // Store image name in database
+        $product->image = $imageName; 
         $product->price = $request->price;
         $product->save();
-
         return redirect()->route('dashboard')->with('success','Successfully Added!');
-        
     }
 
    
@@ -185,23 +183,24 @@ class PostController extends Controller
     $product = GadgetModel::find($id);
 
     if (!$product) {
-        abort(404); // Handle case where product is not found
+        abort(404); 
     }
+
     $cart = session()->get('cart', []);
+
     if (isset($cart[$id])) {
-        $cart[$id]['quantity']++; // Increment quantity if product already in cart
+        return redirect()->route('index')->with('error', 'Product has already been added to cart.');
     } else {
-        // Add new product to cart
         $cart[$id] = [
             'name' => $product->name,
             'quantity' => 1,
             'price' => $product->price,
         ];
     }
-    
-    session()->put('cart', $cart); // Update cart session
+    session()->put('cart', $cart); 
     return redirect()->route('index')->with('success', 'Product successfully added to cart.');
     }
+
 
     public function remove($id)
     {
@@ -287,7 +286,7 @@ class PostController extends Controller
             $request->session()->forget('cart'); 
             $cartItem->save();
         }
-        return redirect()->route('order')->with('success', "Thanks for your order, {$loggedInUser}!");
+        return redirect()->route('order')->with('success', "Happy Purchasing, {$loggedInUser}!");
     }
     public function checkout(Request $request){
         $loggedInUser = Auth::user()->name ?? null;
@@ -306,10 +305,17 @@ class PostController extends Controller
         // Fetch orders associated with the authenticated user
     }
 
-    public function truncateOrders(Request $request){
+    public function truncateOrders(Request $request) {
+        $orderCount = Order::count();
+    
+        if ($orderCount === 0) {
+            return redirect()->route('dashboard')->with('error', 'No orders found to delete.');
+        }
+    
         Order::truncate();
-        return redirect()->route('dashboard')->with('success','Orders Successfully Deleted');
+        return redirect()->route('dashboard')->with('success', 'Orders successfully deleted.');
     }
+    
 
     public function cancelorders(Request $request){
         $userId = Auth::id();
@@ -327,5 +333,22 @@ class PostController extends Controller
             return redirect()->route('order')->with('success', 'No orders found to cancel.');
         }
     }
+
+    public function deleteorders($id)
+    {
+        // Find the order by ID
+        $order = Order::findOrFail($id);
+
+        // Ensure the order belongs to the authenticated user
+        if ($order->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        // Delete the order
+        $order->delete();
+
+        return redirect()->back()->with('success', 'Order has been successfully cancelled.');
+    }
+
 
 }
