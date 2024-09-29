@@ -75,10 +75,11 @@ class PostController extends Controller
     }
 
     public function dashboard(){
-        $count = GadgetModel::count();
-        $date = Carbon::now()->format('d-m-y'); // Example: 03-12-24
-        $product = GadgetModel::all();
-        return view("dashboard",compact("product","count","date"));
+        $date = Carbon::now()->format('d-m-y'); 
+        $products = GadgetModel::paginate(4); 
+        $count = $products->total(); 
+    
+        return view("dashboard", compact("products", "count", "date"));
     }
 
     public function create()

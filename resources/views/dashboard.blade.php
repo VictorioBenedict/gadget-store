@@ -124,7 +124,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($product as $product)
+                        @foreach ($products as $product)
                         <tr>
                             <td><img src="{{ asset('images/' . $product->image) }}" class="card-img-top" width="50" height="50" alt="{{ $product->name }}"></td>
                             <td class="text-center">{{ $product->name }}</td>
@@ -145,6 +145,14 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-between">
+                    <p>
+                        Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $count }} results
+                    </p>
+                    <div>
+                        {{ $products->links('pagination::bootstrap-4') }}
+                    </div> 
+                </div>               
             </div>
         </div>
     </div>    
