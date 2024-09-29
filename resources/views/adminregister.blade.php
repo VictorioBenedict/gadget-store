@@ -93,5 +93,14 @@
             }
         });
     });
+
+    @if ($errors->any())
+                Swal.fire({
+                    title: "Error!",
+                    text: "{{ $errors->first() }}",
+                    icon: "error",
+                    confirmButtonText: "Okay",
+                });
+    @endif
 </script>
 </html>

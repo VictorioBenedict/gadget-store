@@ -20,11 +20,17 @@ class AdminController extends Controller
         return view("adminregister"); 
     }
 
-    public function adminstore(Request $request){
-        $request->validate([
+    public function adminstore(Request $request) {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:admins,email',
             'password' => 'required|string|min:3|confirmed',
         ]);
+    
+        if ($validator->fails()) {
+            // Redirect back with input and error message
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
     
         // Create new admin user
         AdminModel::create([
@@ -32,6 +38,7 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ]);
     
+        // Redirect with success message
         return redirect()->route('admin')->with('success', 'Registration successful! Please login.');
     }
 
