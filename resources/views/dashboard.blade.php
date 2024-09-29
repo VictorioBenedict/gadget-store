@@ -158,6 +158,4 @@
         toast.show();
     });
 </script>
-
-
 </html>
