@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <title>Gadget Store</title>
     <style>
@@ -34,6 +35,12 @@
         .features {
             background-color: #dee2e6;
         }
+        .logo-icon{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
 
         /* Ensure consistent text alignment on different screen sizes */
         @media (min-width: 992px) {
@@ -49,7 +56,9 @@
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="container">
-                <a class="navbar-brand" href="#">Gadget Store</a>
+                <a class="navbar-brand" href="#">
+                    <img src="assets/logo.png" alt="Logo" class="logo-icon"> Gadget Store
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -63,6 +72,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route ('products')}}">Products</a>
                         </li>
                     </ul>
                 </div>

@@ -9,15 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <title>Document</title>
     <style>
         *{
             font-family: "Bebas Neue", sans-serif;
             font-weight: 400;
             font-style: normal;
-        }
-        form{
-            background-color: #A0937D;
         }
 
         body{
@@ -35,9 +33,14 @@
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <form method="POST" action="{{ route('adminlogout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link" style="border: none; background: none; cursor: pointer;">
+                            Logout
+                        </button>
+                    </form>
                 </li>
-            </ul>
+            </ul>       
         </div>
     </nav>
     <div class="container">

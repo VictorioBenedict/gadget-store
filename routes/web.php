@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/home',[PostController::class,'home'])->name('home');
-
 Route::get('/smartphone',[PostController::class,'smartphone'])->name('smartphone');
 Route::get('/digitalcamera',[PostController::class,'digitalcamera'])->name('digitalcamera');
 Route::get('/personalcomputer',[PostController::class,'personalcomputer'])->name('personalcomputer');
@@ -60,4 +60,10 @@ Route::get('admin', [AdminController::class,'admin'])->name('admin');
 Route::post('adminlogin', [AdminController::class,'adminlogin'])->name('adminlogin');
 Route::get('/dashboard',[PostController::class,'dashboard'])->name('dashboard');
 
+Route::get('/products', [ProductController::class, 'products'])->name('products');
+Route::get('/products/television', [ProductController::class, 'televisionn'])->name('televisionn');
+Route::get('/products/smartphone', [ProductController::class, 'smartphonee'])->name('smartphonee');
+Route::get('/products/digitalcamera', [ProductController::class, 'digitalcameraa'])->name('digitalcameraa');
+Route::get('/products/personalcomputer', [ProductController::class, 'personalcomputerr'])->name('personalcomputerr');
+Route::get('/products/all', [ProductController::class, 'all'])->name('all');
 

@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Gadget Store</title>
     <style>
@@ -24,61 +25,63 @@
         table {
             background-color: #A0937D;
         }
+        .logo-icon{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .small-text{
+            font-size: 1rem;
+        }
     </style>
 </head>
-<body class="bg-secondary">
+<header>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" style="pointer-events: none; cursor: default;">Welcome  {{ $loggedInUser }}!</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('index') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        Logout
-                    </a>                     
-                </li>
-            </ul>
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
-                    <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
-                    <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
-                        {{ count((array) session('cart')) }}
-                        <span class="visually-hidden">items in cart</span>
-                    </span>
-                </a>
-                <a class="btn btn-outline-light position-relative ms-2 cart-link" href="{{ route('order') }}">
-                    <i class="fa fa-file-alt me-1" aria-hidden="true"></i> Order Details
-                </a>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon">Gadget Store
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ route('main')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('main') }}#about">About</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('main') }}#features">Features</a>
+                    </li>                                       
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{route ('products')}}">Products</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </nav>  
-
+    </nav>
+</header>
+<body class="bg-secondary">
     <div class="container">
         <div class="row justify-content-start">
-            <div class="title text-center mt-4 text-black"><h3>Welcome to Gadget Store</h3></div>
-            <p class="text text-center mt-2 text-black">Connecting you to the world, one device at a time.</p>
-            <p class="text-black">Select Categories:</p>
+            <p class="text-black mt-5">Select Categories:</p>
             <div class="d-flex gap-3">
-                <a href="{{ route('index') }}">
+                <a href="{{ route('all') }}">
                     <button class="btn btn-outline-dark">All</button>
                 </a>
-                <a href="{{ route('smartphone') }}">
+                <a href="{{ route('smartphonee') }}">
                     <button class="btn btn-outline-dark">Smartphone</button>
                 </a>
-                <a href="{{ route('digitalcamera') }}">
+                <a href="{{ route('digitalcameraa') }}">
                     <button class="btn btn-outline-dark">Digital Camera</button>
                 </a>
-                <a href="{{ route('personalcomputer') }}">
+                <a href="{{ route('personalcomputerr') }}">
                     <button class="btn btn-outline-dark">Personal Computer</button>
                 </a>
-                <a href="{{ route('television') }}">
+                <a href="{{ route('televisionn') }}">
                     <button class="btn btn-outline-dark">Television</button>
                 </a>
             </div>
@@ -109,7 +112,7 @@
 
             <div class="container mt-4">
                 <div class="d-flex justify-content-center">
-                    <form class="d-flex w-50 gap-2" action="{{ route('index') }}" method="GET">
+                    <form class="d-flex w-50 gap-2" action="{{ route('products') }}" method="GET">
                         <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}">
                         <button class="btn btn-light border border-black" type="submit">Search</button>
                     </form>
@@ -120,10 +123,10 @@
                 <div class="col-12 text-center mt-4">
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
-                    @endif           
+                    @endif    
                     <div class="col-12 text-center mt-5">
                         <h5>No products have been added by the admin.</h5>
-                    </div>      
+                    </div>            
                 </div>
             @else
                 @foreach ($product as $product)
@@ -133,8 +136,9 @@
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title text-center">{{ $product->name }}</h5>
                                 <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>
+                                <p class="card-text text-center small-text">{{ $product->description }}</p>
                                 <div class="text-center">
-                                    <a href="{{ route('addtocart', $product->id) }}" class="btn btn-outline-light">Add to Cart</a>
+                                    <a href="{{ route('login')}}" class="btn btn-outline-light">Add to Cart</a>
                                 </div>
                             </div>
                         </div>

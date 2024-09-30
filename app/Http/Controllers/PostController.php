@@ -13,6 +13,7 @@ class PostController extends Controller
     public function main(){
         return view("main");
     }
+    
     public function index(Request $request)
     { 
         $query = $request->input('query');

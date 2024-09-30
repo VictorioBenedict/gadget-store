@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <script>
         // Push a new state to the history stack on page load
         window.onload = function() {
