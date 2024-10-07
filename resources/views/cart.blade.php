@@ -43,9 +43,6 @@
             </a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="pointer-events: none; cursor: default;">{{ $loggedInUser }}</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link active" href="{{ route('index') }}">Home</a>
                 </li>
                 <li class="nav-item">
