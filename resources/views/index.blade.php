@@ -31,6 +31,12 @@
             border-radius: 50%;
             margin-right: 8px;
         }
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
     </style>
 </head>
 <body class="bg-secondary">
