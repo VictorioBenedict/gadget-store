@@ -9,7 +9,7 @@ class UserModel extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    protected $fillable = ['id','name','email','password'];
+    protected $fillable = ['id','name','email','password','role'];
 
     public function orders(): HasMany
     {

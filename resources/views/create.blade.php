@@ -33,7 +33,7 @@
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <form method="POST" action="{{ route('adminlogout') }}">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="nav-link" style="border: none; background: none; cursor: pointer;">
                             Logout
@@ -85,7 +85,7 @@
                     </div>
                     <div class="text-center">
                         <a href="{{ route('dashboard') }}" class="btn btn-light mt-2 border-2 text-black">Back</a>
-                        <button class="btn btn-light mt-2 border-2 text-black" type="submit">Submit</button>
+                        <button class="btn btn-light mt-2 border-2 text-black" type="submit">Add</button>
                     </div>                    
                 </form>
             </div>

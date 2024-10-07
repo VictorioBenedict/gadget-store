@@ -33,7 +33,7 @@
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <form method="POST" action="{{ route('adminlogout') }}">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="nav-link" style="border: none; background: none; cursor: pointer;">
                             Logout

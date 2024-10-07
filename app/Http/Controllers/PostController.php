@@ -25,8 +25,9 @@ class PostController extends Controller
             ->get();
 
             $loggedInUser = Auth::user()->name ?? null;
+            $user = Auth::user();
         
-        return view('index', compact('product', 'query','loggedInUser'));
+        return view('index', compact('product', 'query','loggedInUser','user'));
     }
 
 
@@ -35,7 +36,8 @@ class PostController extends Controller
         $loggedInUser = Auth::user()->name ?? null;
         $query = $request->input('query');
         $product = GadgetModel::where('category','smartphone')->get();
-        return view("index", compact("product", 'query','loggedInUser'));
+        $user = Auth::user();
+        return view("index", compact("product", 'query','loggedInUser','user'));
     }
 
     
@@ -44,7 +46,8 @@ class PostController extends Controller
         $loggedInUser = Auth::user()->name ?? null;
         $query = $request->input('query');
         $product = GadgetModel::where('category','digitalcamera')->get();
-        return view("index", compact("product",'query','loggedInUser'));
+        $user = Auth::user();
+        return view("index", compact("product",'query','loggedInUser','user'));
     }
 
     public function personalcomputer(Request $request)
@@ -52,7 +55,8 @@ class PostController extends Controller
         $loggedInUser = Auth::user()->name ?? null;
         $query = $request->input('query');
         $product = GadgetModel::where('category','personalcomputer')->get();
-        return view("index", compact("product",'query','loggedInUser'));
+        $user = Auth::user();
+        return view("index", compact("product",'query','loggedInUser','user'));
     }
 
     public function television(Request $request)
@@ -60,19 +64,8 @@ class PostController extends Controller
         $loggedInUser = Auth::user()->name ?? null;
         $query = $request->input('query');
         $product = GadgetModel::where('category','television')->get();
-        return view("index", compact("product",'query','loggedInUser'));
-    }
-
-    public function home(Request $request){
-        $query = $request->input('query');
-        $product= GadgetModel::query()
-            ->when($query, function ($queryBuilder) use ($query) {
-                $queryBuilder->where('name', 'like', '%' . $query . '%');
-            })
-            ->orderBy('name')
-            ->get();
-        
-        return view('index', compact('product', 'query'));
+        $user = Auth::user();
+        return view("index", compact("product",'query','loggedInUser','user'));
     }
 
     public function dashboard(){

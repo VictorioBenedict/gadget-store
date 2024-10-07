@@ -52,8 +52,12 @@
                 <div class="card p-5 mt-5">
                     <h3 class="text-center" style="color: #FFB200">Admin Register</h3>    
                     <div class="card-body mt-5">
-                        <form action="{{ route('adminstore') }}" method="post">
+                        <form action="{{ route('registerpost') }}" method="post">
                             @csrf
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" id="email" name="email" class="form-control" required>
@@ -62,12 +66,13 @@
                                 <label for="password">Password:</label>
                                 <input type="password" id="password" name="password" class="form-control" required min="6">
                             </div>
+                            <input type="hidden" name="role" value="admin">
                             <div class="form-group">
                                 <label for="password_confirmation">Confirm Password:</label>
                                 <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required min="6">
                             </div>
                             <button class="btn btn-primary mt-3" type="submit">Register</button>
-                            <a href="{{ route('admin') }}" class="btn btn-primary mt-3">Back</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary mt-3">Back</a>
                         </form>                        
                     </div>
                 </div>

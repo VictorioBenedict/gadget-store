@@ -67,7 +67,9 @@
 <body class="bg-secondary">
     <div class="container">
         <div class="row justify-content-start">
-            <p class="text-black mt-5">Select Categories:</p>
+            <div class="title text-center mt-4 text-black"><h3>Welcome to Gadget Store</h3></div>
+            <p class="text text-center mt-2 text-black">Connecting you to the world, one device at a time.</p>
+            <p class="text-black ">Select Categories:</p>
             <div class="d-flex gap-3">
                 <a href="{{ route('all') }}">
                     <button class="btn btn-outline-dark">All</button>
@@ -113,7 +115,7 @@
             <div class="container mt-4">
                 <div class="d-flex justify-content-center">
                     <form class="d-flex w-50 gap-2" action="{{ route('products') }}" method="GET">
-                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}">
+                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
                         <button class="btn btn-light border border-black" type="submit">Search</button>
                     </form>
                 </div>
@@ -131,8 +133,8 @@
             @else
                 @foreach ($product as $product)
                     <div class="col-md-3 mb-4 mt-3" style="width: 250px;">
-                        <div class="card bg-black text-white mt-5">
-                            <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                        <div class="card bg-black text-white">
+                            <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" draggable="false">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title text-center">{{ $product->name }}</h5>
                                 <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>

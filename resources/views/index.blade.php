@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <title>Gadget Store</title>
     <style>
         * {
@@ -24,14 +25,23 @@
         table {
             background-color: #A0937D;
         }
+        .logo-icon{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body class="bg-secondary">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store</img>
+            </a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="pointer-events: none; cursor: default;">Welcome  {{ $loggedInUser }}!</a>
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">{{ $loggedInUser }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ route('index') }}">Home</a>
@@ -59,11 +69,47 @@
             </div>
         </div>
     </nav>  
-
+      
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm" method="POST" action="{{ route('updateprofile', $user->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Update Password (Leave blank if you don't want to change)">
+                        </div>
+                        <input type="hidden" name="role" value="user">
+                        <div class="mb-3">
+                            <label for="password_confirmation">Confirm Password:</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Your Password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    
     <div class="container">
-        <div class="row justify-content-start">
-            <div class="title text-center mt-4 text-black"><h3>Welcome to Gadget Store</h3></div>
-            <p class="text text-center mt-2 text-black">Connecting you to the world, one device at a time.</p>
+        <div class="row justify-content-start mt-2">
             <p class="text-black">Select Categories:</p>
             <div class="d-flex gap-3">
                 <a href="{{ route('index') }}">
@@ -107,29 +153,81 @@
                 @endif
             </div>   
 
-            <div class="container mt-4">
+            <div class="container mt-2 mb-2">
                 <div class="d-flex justify-content-center">
                     <form class="d-flex w-50 gap-2" action="{{ route('index') }}" method="GET">
-                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}">
+                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
                         <button class="btn btn-light border border-black" type="submit">Search</button>
                     </form>
                 </div>
-            </div>         
+            </div>
 
+            <div class="d-flex align-items-center justify-content-center mt-1">
+                <div class="col-md-10 col-lg-10"> 
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active" data-bs-interval="5000">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="{{ asset('assets/game-over.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
+                                            <img src="{{ asset('assets/gamer.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
+                                            <img src="{{ asset('assets/games.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <h6>Elevate your gaming experience!</h6>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="5000">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="{{ asset('assets/worker.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
+                                            <img src="{{ asset('assets/camera.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                            <img src="{{ asset('assets/touch-screen.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <h6>Discover innovative gadgets, unbeatable prices, and cutting-edge technology for everyone!</h6>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="5000">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="{{ asset('assets/tv.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
+                                            <img src="{{ asset('assets/best-price.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                            <img src="{{ asset('assets/headphones.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <h6>High-quality tech and enjoy affordable prices on everything today!</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
             @if($product->isEmpty())
-                <div class="col-12 text-center mt-4">
+                <div class="col-12 text-center mt-2">
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
                     @endif           
-                    <div class="col-12 text-center mt-5">
-                        <h5>No products have been added by the admin.</h5>
+                    <div class="col-12 text-center mt-2">
+                        <h5>The item you are searching for has not yet been added.</h5>
                     </div>      
                 </div>
             @else
                 @foreach ($product as $product)
-                    <div class="col-md-3 mb-4 mt-3" style="width: 250px;">
-                        <div class="card bg-black text-white mt-5">
-                            <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                    <div class="col-md-3 mb-4 mt-2" style="width: 250px;">
+                        <div class="card bg-black text-white mt-2">
+                            <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" draggable="false">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title text-center">{{ $product->name }}</h5>
                                 <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>
@@ -144,4 +242,26 @@
         </div>
     </div>
 </body>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('editProfileForm');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('password_confirmation');
+    const saveButton = document.getElementById('saveChanges');
+
+    saveButton.addEventListener('click', function(event) {
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Passwords do not match!",
+                text: "Please ensure both passwords are the same.",
+                icon: "warning",
+                confirmButtonText: "Okay",
+            });
+        } else {
+            form.submit();
+        }
+    });
+});
+</script>
 </html>

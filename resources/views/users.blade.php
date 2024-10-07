@@ -63,13 +63,10 @@
         <div class="row justify-content-center p-10">
             <div class="col mt-5">
                 <div class="title text-center" style="color: #131842"><h3>Admin Dashboard</h3></div>
-                <a href="{{route ('create')}}"><button class="btn btn-light" style="color: #272829";>Add Device</button></a>
-                <form action="{{ route('truncate') }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" class="btn btn-light" style="display: none; color: #272829;">Delete All Orders</button> <!--hide ko muna-->
-                </form>                
-                <a href="{{route('users')}}"><button class="btn btn-light" style="color: #272829";>Users</button></a>
+                <div class="input-group gap-1">
+                    <a href="{{route('add-user')}}"><button class="btn btn-light" style="color: #272829";>Add User</button></a>       
+                    <a href="{{route ('dashboard')}}"><button class="btn btn-light" style="color: #272829";>Back</button></a>           
+                </div>   
                 @if(session('success'))
                 <div class="toast align-items-center mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
                     <div class="d-flex">
@@ -96,20 +93,20 @@
                         <div class="card border-2" style="background-color: #405D72">
                            <div class="card-body">
                             <div class="title text-center" style="color: #F5F7F8";>
-                                <img src="{{ asset('assets/products.png') }}" alt="User Logo" style="width: 50px; height: auto;">
-                                <h5 class="mt-3">Total Number of Products: {{$count}}</h5>
+                                <img src="{{ asset('assets/users.png') }}" alt="User Logo" style="width: 50px; height: auto;">
+                                <h5 class="mt-3">Total Number of Users: {{$userCount}}</h5>
                             </div>
                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card border-2" style="background-color: #405D72">
-                            <div class="card-body">
-                                <div class="title text-center" style="color: #F5F7F8";>
-                                    <img src="{{ asset('assets/calendar.png') }}" alt="User Logo" style="width: 50px; height: auto;">
-                                    <h5 class="mt-3">Today's date: {{$date}}</h5>
-                                </div>
+                           <div class="card-body">
+                            <div class="title text-center" style="color: #F5F7F8";>
+                                <img src="{{ asset('assets/admins.png') }}" alt="User Logo" style="width: 50px; height: auto;">
+                                <h5 class="mt-3">Total Number of Admins: {{$adminCount}}</h5>
                             </div>
+                           </div>
                         </div>
                     </div>
                    </div>
@@ -117,43 +114,42 @@
                 <table class="table border table-light mt-2 fw-bold"> 
                     <thead>
                         <tr class="text-center">
-                            <th>Image</th>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
+                            <th>Email</th>
+                            <th>Role</th>
                             <th>Action</th> 
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $product)
-                        <tr>
-                            <td><img src="{{ asset('images/' . $product->image) }}" class="card-img-top" width="50" height="50" alt="{{ $product->name }}"></td>
-                            <td class="text-center">{{ $product->name }}</td>
-                            <td class="text-center">{{ $product->description }}</td>
-                            <td>₱{{ number_format($product->price, 2) }}</td>
+                        @forelse($users as $user) 
+                        <tr class="text-center">
+                            <td>{{ $user->name }}</td> 
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role }}</td>
                             <td>
-                                <div class="d-flex justify-content-start">
-                                    <a href="{{ route('view', $product->id) }}" class="btn btn-sm btn-info  me-1" style="color: #272829";>View</a>
-                                    <a href="{{ route('edit', $product->id) }}" class="btn btn-sm btn-primary me-1" style="color: #272829";>Edit</a>
-                                    <form action="{{ route('destroy', $product->id) }}" method="POST" class="d-inline" id="delete-form-{{ $product->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-danger" style="color: #272829;" onclick="confirmDelete({{ $product->id }})">Delete</button>
-                                    </form>
-                                </div>
+                                <a href="{{ route('edit-user', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <form action="{{ route('delete-user', $user->id) }}" method="POST" id="delete-form-{{$user->id}}" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $user->id }})">Delete</button>
+                                </form>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No users found.</td>
+                        </tr>
+                        @endforelse
                     </tbody>
-                </table>
+                </table>    
                 <div class="d-flex justify-content-between">
                     <p>
-                        Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $count }} results
+                        Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $count }} results
                     </p>
                     <div>
-                        {{ $products->links('pagination::bootstrap-4') }}
+                        {{ $users->links('pagination::bootstrap-4') }}
                     </div> 
-                </div>               
+                </div>      
             </div>
         </div>
     </div>    
@@ -167,10 +163,10 @@
         toast.show();
     });
 
-    function confirmDelete(productId) {
+    function confirmDelete(userId) {
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this product!",
+            text: "Once deleted, you will not be able to recover this user!",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -179,7 +175,7 @@
             closeOnConfirm: false
         }, function(isConfirm) {
             if (isConfirm) {
-                document.getElementById('delete-form-' + productId).submit();
+                document.getElementById('delete-form-' + userId).submit();
             }
         });
     }

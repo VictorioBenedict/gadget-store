@@ -24,6 +24,9 @@
         table {
             background-color: #A0937D;
         }
+        td {
+            width: 100px;
+        }
     </style>
 </head>
 <body class="bg-secondary">
@@ -38,7 +41,7 @@
                 </li>
                 <li class="nav-item">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf <!-- CSRF Protection -->
+                        @csrf 
                     </form>
                     
                     <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -84,7 +87,7 @@
                              <tr id="product-{{ $id }}">
                                  <td>{{ $product['name'] }}</td>
                                  <td>₱ {{ number_format($product['price'], 2, '.', ',') }}</td>
-                                 <td class="w-25">
+                                 <td>
                                     <div class="input-group input-group-sm">
                                         <button type="button" class="btn btn-outline-secondary decrement-btn" data-id="{{ $id }}">-</button>
                                         <input type="text" pattern="[0-9]*" name="quantity" value="{{ $product['quantity'] }}" data-id="{{ $id }}" class="form-control quantity-input text-center" readonly>
