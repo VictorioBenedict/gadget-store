@@ -25,15 +25,21 @@
         table {
             background-color: #A0937D;
         }
+        .logo-icon{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body class="bg-secondary">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store</img>
+            </a>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" style="pointer-events: none; cursor: default;">Order Details</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ route('index') }}">Home</a>
                 </li>
