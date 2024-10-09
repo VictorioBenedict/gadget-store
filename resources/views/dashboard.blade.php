@@ -89,14 +89,33 @@
                         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
-                @endif       
+                @endif  
+
+                <div class="container mt-2 mb-2">
+                    <div class="d-flex justify-content-center">
+                        <form class="d-flex w-50 gap-2" action="{{ route('search') }}" method="GET">
+                            <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search Products" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
+                            <button class="btn btn-light border border-black" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+                
+                @if($products->isEmpty())
+                    <div class="col-12 text-center mt-2">
+                        @if($query && $products->isEmpty())
+                            <p class="text-black">No products found for your search: "{{ $query }}"</p>
+                        @endif                
+                    </div>
+                @else
+                @endif
+   
                 <div class="start justify-content-center">
                    <div class="row mt-2">
                     <div class="col-md-6">
                         <div class="card border-2" style="background-color: #405D72">
                            <div class="card-body">
                             <div class="title text-center" style="color: #F5F7F8";>
-                                <img src="{{ asset('assets/products.png') }}" alt="User Logo" style="width: 50px; height: auto;">
+                                <img src="{{ asset('assets/products.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
                                 <h5 class="mt-3">Total Number of Products: {{$count}}</h5>
                             </div>
                            </div>
@@ -106,7 +125,7 @@
                         <div class="card border-2" style="background-color: #405D72">
                             <div class="card-body">
                                 <div class="title text-center" style="color: #F5F7F8";>
-                                    <img src="{{ asset('assets/calendar.png') }}" alt="User Logo" style="width: 50px; height: auto;">
+                                    <img src="{{ asset('assets/calendar.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
                                     <h5 class="mt-3">Today's date: {{$date}}</h5>
                                 </div>
                             </div>
@@ -125,9 +144,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if($products->isEmpty())
+                            <tr>
+                                <td colspan="5" class="text-center">No products found.</td>
+                            </tr>
+                        @else
                         @foreach ($products as $product)
                         <tr>
-                            <td><img src="{{ asset('images/' . $product->image) }}" class="card-img-top" width="50" height="50" alt="{{ $product->name }}"></td>
+                            <td><img src="{{ asset('images/' . $product->image) }}" class="card-img-top" width="50" height="50" alt="{{ $product->name }}" draggable="false"></td>
                             <td class="text-center">{{ $product->name }}</td>
                             <td class="text-center">{{ $product->description }}</td>
                             <td>₱{{ number_format($product->price, 2) }}</td>
@@ -144,6 +168,7 @@
                             </td>
                         </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-between">

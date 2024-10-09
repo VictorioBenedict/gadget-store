@@ -49,7 +49,7 @@
                 <form method="POST" action="{{ route('view', $product->id) }}" class="p-4 border border-2 border-black mt-4 fw-bold" enctype="multipart/form-data">
                     <div class="title text-center text-uppercase mt-2" style="color: #131842";><h3>{{$product->name}}'s Information</h3></div>
                     <div class="form-group mt-4 text-black text-center mb-4">
-                        <img src="{{ asset('images/' . $product->image) }}" height="250" width="250" alt="{{ $product->name }}">
+                        <img src="{{ asset('images/' . $product->image) }}" height="250" width="250" alt="{{ $product->name }}" draggable="false">
                     </div>
 
                     <div class="form-group mt-1 text-black text-center mb-2">

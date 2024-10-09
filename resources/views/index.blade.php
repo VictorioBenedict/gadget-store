@@ -37,44 +37,90 @@
             justify-content: center;
             min-height: 100vh;
         }
+        .custom-card {
+            width: 250px;
+        }
+
+        @media (max-width: 768px) {
+            .custom-card {
+                width: 50%; 
+                justify-content: start
+                margin: 0 auto; 
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1023px) {
+            .custom-card {
+                width: 50%; 
+                justify-content: start
+                margin: 0 auto; 
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .custom-card {
+                width: 20%; 
+                justify-content: start
+                margin: 0 auto; 
+            }
+        }
+
+        .carousel-image {
+                width: 100px; 
+                height: auto; 
+                margin: 5px; 
+        }
+
+        @media (max-width: 768px) {
+            .carousel-image {
+                width: 80px; 
+            }
+        }
+
     </style>
 </head>
 <body class="bg-secondary">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-black navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store</img>
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">{{ $loggedInUser }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('index') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        Logout
-                    </a>                     
-                </li>
-            </ul>
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
-                    <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
-                    <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
-                        {{ count((array) session('cart')) }}
-                        <span class="visually-hidden">items in cart</span>
-                    </span>
-                </a>
-                <a class="btn btn-outline-light position-relative ms-2 cart-link" href="{{ route('order') }}">
-                    <i class="fa fa-file-alt me-1" aria-hidden="true"></i> Order Details
-                </a>
+            <span class="navbar-brand">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store
+            </span>       
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">{{ $loggedInUser }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>                     
+                    </li>
+                </ul>
+                <div class="d-flex justify-content-end ms-auto">
+                    <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
+                        <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
+                        <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+                            {{ count((array) session('cart')) }}
+                            <span class="visually-hidden">items in cart</span>
+                        </span>
+                    </a>
+                    <a class="btn btn-outline-light position-relative ms-2 cart-link" href="{{ route('order') }}">
+                        <i class="fa fa-file-alt me-1" aria-hidden="true"></i> Order Details
+                    </a>
+                </div>
             </div>
         </div>
-    </nav>  
+    </nav>
+    
       
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -116,24 +162,25 @@
     
     <div class="container">
         <div class="row justify-content-start mt-2">
-            <p class="text-black">Select Categories:</p>
-            <div class="d-flex gap-3">
-                <a href="{{ route('index') }}">
-                    <button class="btn btn-outline-dark">All</button>
-                </a>
-                <a href="{{ route('smartphone') }}">
-                    <button class="btn btn-outline-dark">Smartphone</button>
-                </a>
-                <a href="{{ route('digitalcamera') }}">
-                    <button class="btn btn-outline-dark">Digital Camera</button>
-                </a>
-                <a href="{{ route('personalcomputer') }}">
-                    <button class="btn btn-outline-dark">Personal Computer</button>
-                </a>
-                <a href="{{ route('television') }}">
-                    <button class="btn btn-outline-dark">Television</button>
-                </a>
-            </div>
+            <p class="d-none d-sm-flex gap-3 text-black">Select Categories:</p>
+        <div class="d-none d-sm-flex gap-3">
+            <a href="{{ route('index') }}">
+                <button class="btn btn-outline-dark">All</button>
+            </a>
+            <a href="{{ route('smartphone') }}">
+                <button class="btn btn-outline-dark">Smartphone</button>
+            </a>
+            <a href="{{ route('digitalcamera') }}">
+                <button class="btn btn-outline-dark">Digital Camera</button>
+            </a>
+            <a href="{{ route('personalcomputer') }}">
+                <button class="btn btn-outline-dark">Personal Computer</button>
+            </a>
+            <a href="{{ route('television') }}">
+                <button class="btn btn-outline-dark">Television</button>
+            </a>
+        </div>
+
 
             <div class="text-center"> 
                 @if (session('success'))
@@ -169,39 +216,39 @@
             </div>
 
             <div class="d-flex align-items-center justify-content-center mt-1">
-                <div class="col-md-10 col-lg-10"> 
+                <div class="col-12 col-md-10"> 
                     <div class="card">
-                        <div class="card-body p-3">
+                        <div class="card-body">
                             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active" data-bs-interval="5000">
-                                        <div class="d-flex justify-content-center">
-                                            <img src="{{ asset('assets/game-over.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
-                                            <img src="{{ asset('assets/gamer.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
-                                            <img src="{{ asset('assets/games.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                        <div class="d-flex justify-content-center flex-wrap"> <!-- Added flex-wrap -->
+                                            <img src="{{ asset('assets/game-over.gif') }}" class="carousel-image" draggable="false">
+                                            <img src="{{ asset('assets/gamer.gif') }}" class="carousel-image" draggable="false">
+                                            <img src="{{ asset('assets/games.gif') }}" class="carousel-image" draggable="false">
                                         </div>
                                         <div class="text-center mt-3">
                                             <h6>Elevate your gaming experience!</h6>
                                         </div>
                                     </div>
                                     <div class="carousel-item" data-bs-interval="5000">
-                                        <div class="d-flex justify-content-center">
-                                            <img src="{{ asset('assets/worker.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
-                                            <img src="{{ asset('assets/camera.gif') }}"  style="width: 100px; height: auto;" draggable="false">
-                                            <img src="{{ asset('assets/touch-screen.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                        <div class="d-flex justify-content-center flex-wrap">
+                                            <img src="{{ asset('assets/worker.gif') }}" class="carousel-image" draggable="false">
+                                            <img src="{{ asset('assets/camera.gif') }}" class="carousel-image" draggable="false">
+                                            <img src="{{ asset('assets/touch-screen.gif') }}" class="carousel-image" draggable="false">
                                         </div>
                                         <div class="text-center mt-3">
-                                            <h6>Discover innovative gadgets, unbeatable prices, and cutting-edge technology for everyone!</h6>
+                                            <h6>Discover innovative gadgets!</h6>
                                         </div>
                                     </div>
                                     <div class="carousel-item" data-bs-interval="5000">
-                                        <div class="d-flex justify-content-center">
-                                            <img src="{{ asset('assets/tv.gif') }}"  style="width: 100px; height: auto; margin-right: 10px;" draggable="false">
-                                            <img src="{{ asset('assets/best-price.gif') }}"  style="width: 100px; height: auto;" draggable="false">
-                                            <img src="{{ asset('assets/headphones.gif') }}"  style="width: 100px; height: auto;" draggable="false">
+                                        <div class="d-flex justify-content-center flex-wrap">
+                                            <img src="{{ asset('assets/tv.gif') }}" class="carousel-image" draggable="false">
+                                            <img src="{{ asset('assets/best-price.gif') }}" class="carousel-image" draggable="false">
+                                            <img src="{{ asset('assets/headphones.gif') }}" class="carousel-image" draggable="false">
                                         </div>
                                         <div class="text-center mt-3">
-                                            <h6>High-quality tech and enjoy affordable prices on everything today!</h6>
+                                            <h6>High-quality tech!</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -220,6 +267,7 @@
             </div>
             
             
+            
             @if($product->isEmpty())
                 <div class="col-12 text-center mt-2">
                     @if($query && $product->isEmpty())
@@ -231,7 +279,7 @@
                 </div>
             @else
                 @foreach ($product as $product)
-                    <div class="col-md-3 mb-4 mt-2" style="width: 250px;">
+                    <div class="col-md-3 mb-4 mt-2 custom-card">
                         <div class="card bg-black text-white mt-2">
                             <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" draggable="false">
                             <div class="card-body d-flex flex-column">

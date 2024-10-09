@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class ResetPasswordController extends Controller
 {
@@ -21,10 +21,11 @@ class ResetPasswordController extends Controller
             'password' => 'required|string|min:3|confirmed',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = UserModel::where('email', $request->email)->first();
         $user->password = Hash::make($request->password);
         $user->save();
 
         return redirect()->route('login')->with('success', 'Password reset successfully.');
     }
 }
+

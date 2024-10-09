@@ -67,8 +67,8 @@
 <body class="bg-secondary">
     <div class="container">
         <div class="row justify-content-start">
-            <div class="title text-center mt-4 text-black"><h3>Welcome to Gadget Store</h3></div>
-            <p class="text text-center mt-2 text-black">Connecting you to the world, one device at a time.</p>
+            <div class="title text-center mt-2 text-black"><h3>Welcome to Gadget Store</h3></div>
+            <p class="text text-center mt-1 text-black">Connecting you to the world, one device at a time.</p>
             <p class="text-black ">Select Categories:</p>
             <div class="d-flex gap-3">
                 <a href="{{ route('all') }}">
@@ -126,7 +126,7 @@
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
                     @endif    
-                    <div class="col-12 text-center mt-5">
+                    <div class="col-12 text-center">
                         <h5>No products have been added by the admin.</h5>
                     </div>            
                 </div>

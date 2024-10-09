@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,6 +74,11 @@ Route::get('/adminregister',[UserController::class, 'adminreg'])->name('adminreg
 Route::post('/registerpost',[UserController::class,'registerpost'])->name('registerpost');
 Route::put('/updateprofile/{id}', [UserController::class, 'updateprofile'])->name('updateprofile');
 
-Route::get('password/reset', [ResetPasswordController::class, 'showResetForm'])->name('password.request');
-Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('showresetform', [ResetPasswordController::class, 'showResetForm'])->name('showresetform');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('reset');
+
+
+
+Route::get('/search', [ProductController::class, 'search'])->name('search');
+Route::get('/searchuser', [ProductController::class, 'searchuser'])->name('searchuser');
 

@@ -70,7 +70,7 @@
                 <div class="card p-5 border-2 border-black mt-5">
                     <div class="title text-center mt-3"><h3>Reset Password</h3></div>    
                     <div class="card-body d-flex justify-content-center align-items-center">
-                        <form id="resetPasswordForm" action="{{ route('password.update') }}" method="POST">
+                        <form id="resetPasswordForm"  action="{{ route('reset') }}"method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email:</label>
@@ -112,7 +112,7 @@
             const passwordConfirmation = document.getElementById('password_confirmation').value;
 
             if (password !== passwordConfirmation) {
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
                 Swal.fire({
                     icon: 'error',
                     title: 'Passwords do not match',

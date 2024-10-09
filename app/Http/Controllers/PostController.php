@@ -68,12 +68,12 @@ class PostController extends Controller
         return view("index", compact("product",'query','loggedInUser','user'));
     }
 
-    public function dashboard(){
+    public function dashboard(Request $request){
+        $query = $request->input('query');
         $date = Carbon::now()->format('d-m-y'); 
         $products = GadgetModel::paginate(4); 
         $count = $products->total(); 
-    
-        return view("dashboard", compact("products", "count", "date"));
+        return view("dashboard", compact("products", "count", "date","query"));
     }
 
     public function create()
@@ -287,7 +287,8 @@ class PostController extends Controller
         $loggedInUser = Auth::user()->name ?? null;
         $product = GadgetModel::all();
         $query = $request->input('query');
-        return view("index", compact("product","query","loggedInUser"));
+        $user = Auth::user();
+        return view("index", compact("product","query","loggedInUser",'user'));
     }
 
     public function order(Request $request){

@@ -13,12 +13,13 @@ class UserController extends Controller
         return view("register");
     }
 
-    public function users(){
+    public function users(Request $request){
+        $query = $request->input('input');
         $users = UserModel::paginate(4); 
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 
-        return view('users', compact('users', 'userCount', 'adminCount','count'));
+        return view('users', compact('users', 'userCount', 'adminCount','count','query'));
 
     }
 

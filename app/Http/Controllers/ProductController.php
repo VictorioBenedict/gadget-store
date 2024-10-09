@@ -4,8 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\GadgetModel;
+use App\Models\UserModel;
+
 class ProductController extends Controller
 {
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = GadgetModel::where('name', 'LIKE', "%{$query}%")->paginate(4);
+        $count = $products->total();
+        $date = now()->format('Y-m-d');
+    
+        return view('dashboard', compact('products', 'count', 'date', 'query'));
+    }
+
+    public function searchuser(Request $request)
+    {
+        $query = $request->input('input');
+        $users = UserModel::where('name', 'LIKE', "%{$query}%")->paginate(4);
+        $userCount = UserModel::where('role', '!=', 'admin')->count(); 
+        $adminCount = UserModel::where('role', 'admin')->count(); 
+        $count = $users->total(); 
+    
+        return view('users', compact('users', 'query', 'userCount', 'adminCount', 'count'));
+    }
+    
+    
+    
+    
+    
     public function products(Request $request){
         $query = $request->input('query');
         $category = $request->input('category');

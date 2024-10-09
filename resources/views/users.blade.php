@@ -86,14 +86,32 @@
                         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
-                @endif       
+                @endif 
+                
+                <div class="container mt-2 mb-2">
+                    <div class="d-flex justify-content-center">
+                        <form class="d-flex w-50 gap-2" action="{{ route('searchuser') }}" method="GET">
+                            <input class="form-control form-control-sm border-black" type="text" name="input" placeholder="Search Users" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
+                            <button class="btn btn-light border border-black" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>        
+                
+                @if ($users->isEmpty())
+                <div class="col-12 text-center mt-4">
+                    @if($query && $users->isEmpty())
+                        <p class="text-black">No users found for your search: "{{ $query }}"</p>
+                    @endif              
+                </div>
+                @endif
+
                 <div class="start justify-content-center">
                    <div class="row mt-2">
                     <div class="col-md-6">
                         <div class="card border-2" style="background-color: #405D72">
                            <div class="card-body">
                             <div class="title text-center" style="color: #F5F7F8";>
-                                <img src="{{ asset('assets/users.png') }}" alt="User Logo" style="width: 50px; height: auto;">
+                                <img src="{{ asset('assets/users.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
                                 <h5 class="mt-3">Total Number of Users: {{$userCount}}</h5>
                             </div>
                            </div>
@@ -103,7 +121,7 @@
                         <div class="card border-2" style="background-color: #405D72">
                            <div class="card-body">
                             <div class="title text-center" style="color: #F5F7F8";>
-                                <img src="{{ asset('assets/admins.png') }}" alt="User Logo" style="width: 50px; height: auto;">
+                                <img src="{{ asset('assets/admins.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
                                 <h5 class="mt-3">Total Number of Admins: {{$adminCount}}</h5>
                             </div>
                            </div>

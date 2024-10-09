@@ -52,17 +52,17 @@
                     <div class="title text-center" style="color: #131842"><h3>Add User</h3></div>
                     <div class="form-group mt-4 text-black text-center mb-2">
                         <label for="name">Name:</label>
-                        <input type="text" class="form-control mx-auto w-50" id="name" name="name" required>
+                        <input type="text" class="form-control mx-auto w-50" id="name" name="name" required autocomplete="off">
                     </div>
                     
                     <div class="form-group mt-1 text-black text-center mb-2">
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control mx-auto w-50" id="email" name="email" required>
+                        <input type="email" class="form-control mx-auto w-50" id="email" name="email" required autocomplete="off">
                     </div>
 
                     <div class="form-group mt-1 text-black text-center mb-2">
                         <label for="password">Password:</label>
-                        <input type="password" class="form-control mx-auto w-50" id="password" name="password" required>
+                        <input type="password" class="form-control mx-auto w-50" id="password" name="password" required autocomplete="off">
                     </div>
 
                     <div class="form-group mt-1 text-black text-center mb-2">
