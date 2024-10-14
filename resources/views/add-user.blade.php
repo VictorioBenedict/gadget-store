@@ -49,7 +49,7 @@
             <div class="col md-6">
                 <form method="POST" action="{{ route('add') }}" class="p-4 border border-2 border-black mt-5 fw-bold">
                     @csrf
-                    <div class="title text-center" style="color: #131842"><h3>Add User</h3></div>
+                    <div class="title text-center" style="color: #131842"><h3>Add New Account</h3></div>
                     <div class="form-group mt-4 text-black text-center mb-2">
                         <label for="name">Name:</label>
                         <input type="text" class="form-control mx-auto w-50" id="name" name="name" required autocomplete="off">
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="text-center">
-                        <a href="{{ route('users') }}" class="btn btn-light mt-2 border-2 text-black">Back</a>
+                        <a href="{{ route('admins') }}" class="btn btn-light mt-2 border-2 text-black">Back</a>
                         <button class="btn btn-light mt-2 border-2 text-black" type="submit">Add</button>
                     </div>
                 </form>

@@ -74,26 +74,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('index') }}">Home</a>
+                        <a class="nav-link" href="{{ route('index') }}">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf 
-                        </form>
-                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>         
-                    </li>
-                </ul>       
+                </ul>
             </div>
         </div>
     </nav>
     
+    
 
-    <div class="d-flex align-items-center justify-content-center mt-1">
-        <div class="col-10 col-md-10 mt-5"> 
+    <div class="container d-flex align-items-center justify-content-center mt-1">
+        <div class="col-md-12 mt-5"> 
             <div class="card">
                 <div class="card-body">
                     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
@@ -162,11 +155,11 @@
                     <table class="table table-bordered border-2 border-black mt-3 fw-bold">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
-                                <th>Total</th>
+                                <th style="width: 2%">Name</th>
+                                <th style="width: 3%">Price</th>
+                                <th style="width: 1%">Quantity</th>
+                                <th style="width: 1%">Action</th>
+                                <th style="width: 5%">Total</th>
                             </tr>
                         </thead>
                         <tbody>

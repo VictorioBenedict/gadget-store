@@ -12,7 +12,7 @@ class ProductController extends Controller
     {
         $query = $request->input('query');
         $products = GadgetModel::where('name', 'LIKE', "%{$query}%")->paginate(4);
-        $count = $products->total();
+        $count = GadgetModel::count();
         $date = now()->format('Y-m-d');
     
         return view('dashboard', compact('products', 'count', 'date', 'query'));
@@ -21,12 +21,39 @@ class ProductController extends Controller
     public function searchuser(Request $request)
     {
         $query = $request->input('input');
-        $users = UserModel::where('name', 'LIKE', "%{$query}%")->paginate(4);
+        $users = UserModel::select('id', 'name', 'email', 'role') // Include necessary columns including 'id'
+        ->where('role', '!=', 'admin') // Exclude users with the 'admin' role
+        ->where(function($queryBuilder) use ($query) {
+            if ($query) {
+                $queryBuilder->where('name', 'LIKE', "%{$query}%")
+                             ->orWhere('email', 'LIKE', "%{$query}%");
+            }
+        })
+        ->paginate(4);
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 
     
         return view('users', compact('users', 'query', 'userCount', 'adminCount', 'count'));
+    }
+    public function searchadmin(Request $request){
+        $query = $request->input('input');
+        $users = UserModel::select('id', 'name', 'email', 'role') // Include necessary columns including 'id'
+            ->where('role', 'admin') // Filter to include only admin users
+            ->where(function($queryBuilder) use ($query) {
+                if ($query) {
+                    $queryBuilder->where('name', 'LIKE', "%{$query}%")
+                                ->orWhere('email', 'LIKE', "%{$query}%");
+                }
+            })
+            ->paginate(4);
+
+        $userCount = UserModel::where('role', '!=', 'admin')->count(); 
+        $adminCount = UserModel::where('role', 'admin')->count(); 
+        $count = $users->total(); 
+
+        return view('admins', compact('users', 'query', 'userCount', 'adminCount', 'count'));
+
     }
     
     

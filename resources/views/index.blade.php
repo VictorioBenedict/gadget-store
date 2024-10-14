@@ -89,23 +89,32 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">{{ $loggedInUser }}</a>
+                        <a class="nav-link active" href="{{ route('index') }}">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('index') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>                     
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{$loggedInUser}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('order') }}">Order History</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
-                <div class="d-flex justify-content-end ms-auto">
+                <div class="d-flex justify-content-end">
                     <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
                         <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
                         <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
@@ -113,13 +122,12 @@
                             <span class="visually-hidden">items in cart</span>
                         </span>
                     </a>
-                    <a class="btn btn-outline-light position-relative ms-2 cart-link" href="{{ route('order') }}">
-                        <i class="fa fa-file-alt me-1" aria-hidden="true"></i> Order Details
-                    </a>
                 </div>
             </div>
         </div>
     </nav>
+    
+    
     
       
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -161,7 +169,7 @@
     </div>
     
     <div class="container">
-        <div class="row justify-content-start mt-2">
+        <div class="row justify-content-start mt-1">
             <p class="d-none d-sm-flex gap-3 text-black">Select Categories:</p>
         <div class="d-none d-sm-flex gap-3">
             <a href="{{ route('index') }}">
@@ -215,14 +223,14 @@
                 </div>
             </div>
 
-            <div class="d-flex align-items-center justify-content-center mt-1">
-                <div class="col-12 col-md-10"> 
+            <div class="container d-flex align-items-center justify-content-center">
+                <div class="col-md-12"> 
                     <div class="card">
                         <div class="card-body">
                             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active" data-bs-interval="5000">
-                                        <div class="d-flex justify-content-center flex-wrap"> <!-- Added flex-wrap -->
+                                        <div class="d-flex justify-content-center flex-wrap">
                                             <img src="{{ asset('assets/game-over.gif') }}" class="carousel-image" draggable="false">
                                             <img src="{{ asset('assets/gamer.gif') }}" class="carousel-image" draggable="false">
                                             <img src="{{ asset('assets/games.gif') }}" class="carousel-image" draggable="false">
@@ -269,17 +277,14 @@
             
             
             @if($product->isEmpty())
-                <div class="col-12 text-center mt-2">
+                <div class="col-12 text-center mt-5">
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
-                    @endif           
-                    <div class="col-12 text-center mt-2">
-                        <h5>The item you are searching for has not yet been added.</h5>
-                    </div>      
+                    @endif             
                 </div>
             @else
                 @foreach ($product as $product)
-                    <div class="col-md-3 mb-4 mt-2 custom-card">
+                    <div class="col-md-3 mb-3 custom-card">
                         <div class="card bg-black text-white mt-2">
                             <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" draggable="false">
                             <div class="card-body d-flex flex-column">

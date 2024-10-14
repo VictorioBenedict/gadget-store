@@ -168,9 +168,10 @@ class PostController extends Controller
         return redirect()->route('dashboard')->with('success', 'Product deleted successfully.');
     }
     public function cart(){
+        $user = Auth::user();
         $loggedInUser = Auth::user()->name ?? null;
         $cart = session()->get('cart', []);
-        return view('cart',compact('cart','loggedInUser'));
+        return view('cart',compact('cart','loggedInUser','user'));
     }
 
     public function addtocart($id)
@@ -268,20 +269,25 @@ class PostController extends Controller
  
     public function success(Request $request)
     {
-        $loggedInUser = Auth::user()->name ?? null;
+        $loggedInUser = Auth::user(); // Get the user object
         $cart = session()->get('cart', []);
 
         foreach ($cart as $productId => $item) {
             $cartItem = new Order();
             $cartItem->user_id = Auth::id(); //para kunin yung user_id sa model tas ipasa ma identify kung kanino yung order
             $cartItem->product_id = $productId;
+            $cartItem->user_name = $loggedInUser->name; // Store the user's name
             $cartItem->name = $item['name'];
             $cartItem->quantity = $item['quantity'];
             $cartItem->price = $item['price'];
             $request->session()->forget('cart'); 
             $cartItem->save();
         }
-        return redirect()->route('order')->with('success', "Happy Purchasing, {$loggedInUser}!");
+        return redirect()->route('order')->with([
+            'success' => "Happy Purchasing, {$loggedInUser->name}!",
+            'username' => $loggedInUser->name,
+            'loggedInUser' => $loggedInUser // Pass the user object to the view
+        ]);
     }
     public function checkout(Request $request){
         $loggedInUser = Auth::user()->name ?? null;
@@ -294,11 +300,33 @@ class PostController extends Controller
     public function order(Request $request){
         $order = new Order();
         $order->user_id = Auth::id(); 
-        $name = Auth::user()->name ?? null;
         $loggedInUser = Auth::user();
-        $cartItems = Order::where('user_id', $loggedInUser->id)->get();
-        return view('order',compact('cartItems','loggedInUser','name'));
-        // Fetch orders associated with the authenticated user
+        $cartItems = Order::where('user_id', $loggedInUser->id)->get(['id', 'user_id', 'product_id', 'name', 'quantity', 'price', 'status']);
+        $loggedInUser = Auth::user()->name ?? null;
+        $user = Auth::user();
+        $products = Order::all();
+        $hasAcceptedStatus = $cartItems->contains(function ($product) {
+            return $product['status'] === 'accepted';
+        });
+        return view('order',compact('cartItems','loggedInUser','user','hasAcceptedStatus'));
+    }
+
+    public function orderlist(Request $request){
+        $orders =  Order::paginate(4);
+        $count = Order::count();
+        return view ('orderlist',compact('orders','count'));
+    }
+
+    public function updatestatus(Request $request,$id){
+        $request->validate([
+            'status' => 'required|in:pending,accepted,rejected',
+        ]);
+    
+        $order = Order::findOrFail($id);
+        $order->status = $request->input('status');
+        $order->save();
+    
+        return redirect()->back()->with('success', 'Order status updated successfully.');
     }
 
     public function truncateOrders(Request $request) {
@@ -315,34 +343,21 @@ class PostController extends Controller
 
     public function cancelorders(Request $request){
         $userId = Auth::id();
-
-        // Check if orders exist for the authenticated user
         $ordersExist = Order::where('user_id', $userId)->exists();
     
         if ($ordersExist) {
-            // Delete orders associated with the authenticated user
             Order::where('user_id', $userId)->delete();
     
             return redirect()->route('order')->with('success', 'Your orders have been successfully cancelled.');
         } else {
-            // No orders found to delete, create a message
             return redirect()->route('order')->with('success', 'No orders found to cancel.');
         }
     }
 
     public function deleteorders($id)
     {
-        // Find the order by ID
         $order = Order::findOrFail($id);
-
-        // Ensure the order belongs to the authenticated user
-        if ($order->user_id !== Auth::id()) {
-            return redirect()->back()->with('error', 'Unauthorized action.');
-        }
-
-        // Delete the order
         $order->delete();
-
         return redirect()->back()->with('success', 'Order has been successfully cancelled.');
     }
 

@@ -87,7 +87,7 @@
                                 <a href="{{ route('register') }}" class="btn btn-primary mt-2 border-2 text-black">User Register</a>
                             </div>
                             <div class="input-text mt-2">
-                                <a href="{{route('showresetform')}}" style="color: #FFB200">Forgot Password?</a>
+                                <a href="{{ route('reset-password') }}" style="color: #FFB200">Forgot Password?</a>
                             </div>
                         </form>                        
                     </div>

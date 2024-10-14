@@ -14,10 +14,12 @@
 
     <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <script>
+        // Push a new state to the history stack on page load
         window.onload = function() {
             history.pushState(null, document.title, window.location.href);
         };
 
+        // Prevent going back to the previous state
         window.onpopstate = function() {
             history.pushState(null, document.title, window.location.href);
         };
@@ -61,10 +63,10 @@
                     <a class="nav-link" href="{{ route('orderlist') }}">Orders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('users') }}">Users</a>
+                    <a class="nav-link" href="{{ route('users') }}">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admins') }}">Admin</a>
+                    <a class="nav-link active" href="{{ route('admins') }}">Admin</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -82,31 +84,36 @@
     <div class="container">
         <div class="row justify-content-center p-10">
             <div class="col mt-5">
-                <div class="title text-center" style="color: #131842"><h3>List of all users</h3></div>
-                @if(session('success'))
-                <div class="toast align-items-center mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
-                    <div class="d-flex">
-                        <div class="toast-body text-success"> 
-                            {{ session('success') }}
+                <div class="title text-center" style="color: #131842"><h3>Admin Dashboard</h3></div>
+                <div class="container">
+                    <a href="{{route('add-user')}}"><button class="btn btn-light" style="color: #272829";>Add new account</button></a>                
+                </div>   
+                <div class="container">
+                    @if(session('success'))
+                    <div class="toast align-items-center mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                        <div class="d-flex">
+                            <div class="toast-body text-success"> 
+                                {{ session('success') }}
+                            </div>
+                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
-                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
-                </div>
-                @endif     
-                @if(session('error'))
-                <div class="toast align-items-center mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
-                    <div class="d-flex">
-                        <div class="toast-body text-danger"> 
-                            {{ session('error') }}
+                    @endif     
+                    @if(session('error'))
+                    <div class="toast align-items-center mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                        <div class="d-flex">
+                            <div class="toast-body text-danger"> 
+                                {{ session('error') }}
+                            </div>
+                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
-                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
+                    @endif 
                 </div>
-                @endif 
                 
                 <div class="container mt-2 mb-2">
                     <div class="d-flex justify-content-center">
-                        <form class="d-flex w-50 gap-2" action="{{ route('searchuser') }}" method="GET">
+                        <form class="d-flex w-50 gap-2" action="{{ route('searchadmin') }}" method="GET">
                             <input class="form-control form-control-sm border-black" type="text" name="input" placeholder="Search Users" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
                             <button class="btn btn-light border border-black" type="submit">Search</button>
                         </form>
@@ -116,7 +123,7 @@
                 @if ($users->isEmpty())
                 <div class="col-12 text-center mt-4">
                     @if($query && $users->isEmpty())
-                        <p class="text-black">No users found for your search: "{{ $query }}"</p>
+                        <p class="text-black">No admin found for your search: "{{ $query }}"</p>
                     @endif              
                 </div>
                 @endif
@@ -127,8 +134,8 @@
                         <div class="card border-2" style="background-color: #405D72">
                            <div class="card-body">
                             <div class="title text-center" style="color: #F5F7F8";>
-                                <img src="{{ asset('assets/users.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
-                                <h5 class="mt-3">Total Number of Users: {{$userCount}}</h5>
+                                <img src="{{ asset('assets/admins.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
+                                <h5 class="mt-3">Total Number of Admins: {{$adminCount}}</h5>
                             </div>
                            </div>
                         </div>
@@ -160,7 +167,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center">No users found.</td>
+                            <td colspan="4" class="text-center">No admin found.</td>
                         </tr>
                         @endforelse
                     </tbody>

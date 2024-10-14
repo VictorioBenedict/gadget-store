@@ -43,6 +43,9 @@ Route::get('/addtocart/{id}', [PostController::class,'addtocart'])->name('addtoc
 Route::delete('/cart/{id}', [PostController::class,'remove'])->name('remove')->middleware(['auth','order']);
 Route::post('/cart/{id}/update-quantity', [PostController::class,'updatequantity'])->name('updatequantity')->middleware(['auth','order']);
 Route::get('/order',[PostController::class,'order'])->name('order')->middleware(['auth','order']);
+Route::get('/orderlist',[PostController::class,'orderlist'])->name('orderlist')->middleware(['auth','order']);
+Route::put('/order-status/{id}', [PostController::class,'updatestatus'])->name('updatestatus');
+
 
 Route::post('/session', [PostController::class, 'session'])->name('session')->middleware(['auth','order']);
 Route::get('/checkout', [PostController::class, 'checkout'])->name('checkout')->middleware(['auth','order']);
@@ -64,6 +67,7 @@ Route::get('/products/personalcomputer', [ProductController::class, 'personalcom
 Route::get('/products/all', [ProductController::class, 'all'])->name('all');
 
 Route::get('/users',[UserController::class, 'users'])->name('users');
+Route::get('/admins',[UserController::class, 'admins'])->name('admins');
 Route::get('/add-user',[UserController::class, 'adduser'])->name('add-user');
 Route::get('/edit-user/{id}',[UserController::class, 'edituser'])->name('edit-user');
 Route::put('/update-user/{id}', [UserController::class, 'updateuser'])->name('update-user');
@@ -74,11 +78,11 @@ Route::get('/adminregister',[UserController::class, 'adminreg'])->name('adminreg
 Route::post('/registerpost',[UserController::class,'registerpost'])->name('registerpost');
 Route::put('/updateprofile/{id}', [UserController::class, 'updateprofile'])->name('updateprofile');
 
-Route::get('showresetform', [ResetPasswordController::class, 'showResetForm'])->name('showresetform');
+Route::get('reset-password', [ResetPasswordController::class, 'resetpassword'])->name('reset-password');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('reset');
 
 
 
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/searchuser', [ProductController::class, 'searchuser'])->name('searchuser');
-
+Route::get('/searchadmin', [ProductController::class, 'searchadmin'])->name('searchadmin');

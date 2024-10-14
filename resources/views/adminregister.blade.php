@@ -51,28 +51,30 @@
                 </div>
                 <div class="card p-5 mt-5">
                     <h3 class="text-center" style="color: #FFB200">Admin Register</h3>    
-                    <div class="card-body mt-5">
+                    <div class="card-body d-flex justify-content-center align-items-center">
                         <form action="{{ route('registerpost') }}" method="post">
                             @csrf
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" id="name" name="name" class="form-control" required>
+                                <input type="text" id="name" name="name" class="form-control" required style="width: 400px;" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control" required>
+                                <input type="email" id="email" name="email" class="form-control" required style="width: 400px;" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control" required min="6">
+                                <input type="password" id="password" name="password" class="form-control" style="width: 400px;" autocomplete="off">
                             </div>
-                            <input type="hidden" name="role" value="admin">
+                            <input type="hidden" name="role" value="user">
                             <div class="form-group">
                                 <label for="password_confirmation">Confirm Password:</label>
-                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required min="6">
+                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" style="width: 400px;" autocomplete="off">
                             </div>
-                            <button class="btn btn-primary mt-3" type="submit">Register</button>
-                            <a href="{{ route('login') }}" class="btn btn-primary mt-3">Back</a>
+                            <div class="input-text mt-2">
+                                <button class="btn btn-primary" type="submit">Register</button>
+                                <a href="{{ route('login') }}" class="btn btn-primary">Back</a>
+                            </div>
                         </form>                        
                     </div>
                 </div>
@@ -92,7 +94,7 @@
                 Swal.fire({
                     title: "Passwords do not match!",
                     text: "Please ensure both passwords are the same.",
-                    icon: "warning",
+                    icon: "error",
                     confirmButtonText: "Okay",
                 });
             }
@@ -100,12 +102,12 @@
     });
 
     @if ($errors->any())
-                Swal.fire({
-                    title: "Error!",
-                    text: "{{ $errors->first() }}",
-                    icon: "error",
-                    confirmButtonText: "Okay",
-                });
+        Swal.fire({
+            title: "Error!",
+            text: "{{ $errors->first() }}",
+            icon: "error",
+            confirmButtonText: "Okay",
+    });
     @endif
 </script>
 </html>

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
 {
-    public function showResetForm()
+    public function resetpassword()
     {
         return view('reset-password');
     }

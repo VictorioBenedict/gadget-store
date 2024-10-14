@@ -15,11 +15,24 @@ class UserController extends Controller
 
     public function users(Request $request){
         $query = $request->input('input');
-        $users = UserModel::paginate(4); 
+        $users = UserModel::select('id', 'name', 'email', 'role') 
+            ->where('role', '!=', 'admin') 
+            ->paginate(4);
+        
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
+        $count = $users->total(); 
+        return view('users', compact('users', 'userCount','count','query'));
+
+    }
+
+    public function admins(Request $request){
+        $query = $request->input('input');
+        $users = UserModel::select('id', 'name', 'email', 'role') 
+            ->where('role',  'admin') 
+            ->paginate(4);
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 
-        return view('users', compact('users', 'userCount', 'adminCount','count','query'));
+        return view('admins', compact('users', 'adminCount','count','query'));
 
     }
 
@@ -68,7 +81,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password), 
             'role' => $request->role,
         ]);
-        return redirect()->route('users')->with('success', 'User added successfully!');
+        return redirect()->route('admins')->with('success', 'User added successfully!');
     }
     public function login(){
         return view('login');
@@ -98,12 +111,12 @@ class UserController extends Controller
     
     }
     public function logout(Request $request){
-        Auth::logout(); // Logs the user out
-        $request->session()->invalidate(); // Invalidate the session
-        $request->session()->regenerateToken(); // Regenerate the CSRF token
+        Auth::logout(); 
+        $request->session()->invalidate(); 
+        $request->session()->regenerateToken(); 
         session_start();
         session_destroy();
-        return redirect('login'); // Redirect to the homepage or login page
+        return redirect('login');
     }
 
     public function admin()
@@ -170,7 +183,7 @@ class UserController extends Controller
         $user->role = $request->role;
         $user->save();
     
-        return redirect()->route('users')->with('success', 'User updated successfully.');
+        return redirect()->route('admins')->with('success', 'User updated successfully.');
     }
 
     public function updateprofile(Request $request, $id){

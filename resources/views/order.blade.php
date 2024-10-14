@@ -38,31 +38,24 @@
         <div class="container">
             <span class="navbar-brand">
                 <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store
-            </span>            
+            </span>       
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('index') }}">Home</a>
+                        <a class="nav-link" href="{{ route('index') }}">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf 
-                        </form>
-                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>         
-                    </li>
-                </ul>       
+                </ul>
             </div>
         </div>
     </nav>
+    
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col">
-                <div class="title text-center mt-5 text-black fw-bold"><h3>Order Details</h3></div>
+                <div class="title text-center mt-5 text-black fw-bold"><h3>Order History</h3></div>
                 <p class="text text-center mt-2 text-black fw-bold">Connecting you to the world, one device at a time.</p>
                 <div class="text-center"> 
                     @if (session('success'))
@@ -80,11 +73,12 @@
                     <table class="table table-bordered border-2 border-black mt-5 fw-bold">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th class="text-center">Action</th>
-                                <th>Total</th>
+                                <th style="width: 2%">Product Name</th>
+                                <th style="width: 3%">Price</th>
+                                <th style="width: 1%">Quantity</th>
+                                <th class="text-center" style="width: 1%">Action</th>
+                                <th class="text-center" style="width: 1%">Status</th>
+                                <th style="width: 5%">Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,13 +89,32 @@
                             <tr id="product-{{ $id }}">
                                 <td>{{ $product['name'] }}</td>
                                 <td>₱ {{ number_format($product['price'], 2, '.', ',') }}</td>
-                                <td class="w-25">
+                                <td>
                                     <div class="input-group input-group-sm">
                                         <input type="text" pattern="[0-9]*" name="quantity" value="{{ $product['quantity'] }}" data-id="{{ $id }}" class="form-control quantity-input text-center" readonly>                                    
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="{{ $product['id'] }}" style="color: #272829;">Cancel</button>
+                                    @if($product['status'] == 'accepted')
+                                        <button type="button" class="btn btn-sm btn-danger" disabled style="color: #ccc;">Cancel</button>
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="{{ $product['id'] }}" style="color: #272829;">Cancel</button>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if(isset($product['status']))
+                                        @if($product['status'] == 'pending')
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        @elseif($product['status'] == 'accepted')
+                                            <span class="badge bg-success text-dark">Accepted</span>
+                                        @elseif($product['status'] == 'rejected')
+                                            <span class="badge bg-danger text-dark">Rejected</span>
+                                        @else
+                                            <span class="badge bg-secondary">Unknown</span>
+                                        @endif
+                                    @else
+                                        <span class="badge bg-secondary">Not Specified</span>
+                                    @endif
                                 </td>
                                 <td id="total-{{ $id }}">{{ '₱ ' . number_format($product['price'] * $product['quantity'], 2, '.', ',') }}</td>
                             </tr>
@@ -110,16 +123,16 @@
                             @endphp
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center">You haven't ordered a single item yet.</td>
+                                <td colspan="6" class="text-center">You haven't ordered a single item yet.</td>
                             </tr>
                             @endforelse
                             @if ($total > 0)
                                 <tr>
-                                    <td colspan="4"><strong>Total</strong></td>
+                                    <td colspan="5"><strong>Total</strong></td>
                                     <td id="cart-total"><strong>₱ {{ number_format($total, 2, '.', ',') }}</strong></td>
                                 </tr>
                             @endif
-                        </tbody>
+                        </tbody>                        
                     </table>
                     <tr>
                         <td colspan="5" style="text-align:right;">
@@ -127,13 +140,13 @@
                                 <a href="{{ url('index') }}" class="btn btn-primary">
                                     <i class="fa fa-arrow-left"></i> Continue Shopping
                                 </a>
-                                @if ($total > 0)
-                                <button class="btn btn-danger" id="cancel-orders-btn">Cancel All Orders</button>
+                                @if ($total > 0 && !$hasAcceptedStatus)
+                                    <button class="btn btn-danger" id="cancel-orders-btn">Cancel All Orders</button>
                                 @else
-                                <button class="btn btn-danger" disabled>Cancel All Orders</button>
+                                    <button class="btn btn-danger" disabled style="color: #ccc;">Cancel All Orders</button>
                                 @endif
                             </div>
-                        </td>                        
+                        </td>                     
                     </tr>              
                 </div>
             </div>
@@ -175,13 +188,34 @@
                     if (result.isConfirmed) {
                         const form = document.createElement('form');
                         form.method = 'POST';
-                        form.action = "{{ url('deleteorders') }}/" + id; // Adjust the URL as necessary
+                        form.action = "{{ url('deleteorders') }}/" + id; 
                         form.innerHTML = '@csrf @method("DELETE")';
                         document.body.appendChild(form);
                         form.submit();
                     }
                 });
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('editProfileForm');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('password_confirmation');
+        const saveButton = document.getElementById('saveChanges');
+
+        saveButton.addEventListener('click', function(event) {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                event.preventDefault();
+                Swal.fire({
+                    title: "Passwords do not match!",
+                    text: "Please ensure both passwords are the same.",
+                    icon: "warning",
+                    confirmButtonText: "Okay",
+                });
+            } else {
+                form.submit();
+            }
+        });
         });
     </script>
 </body>

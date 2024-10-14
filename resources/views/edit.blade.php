@@ -21,16 +21,21 @@
         body{
             background-color: #A0937D;
         }
+        .logo-icon{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link disabled text-white" href="#">Admin Dashboard</a>
-                </li>                
-            </ul>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">
+                Admin Dashboard
+            </a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}">
@@ -40,7 +45,7 @@
                         </button>
                     </form>
                 </li>
-            </ul>       
+            </ul>
         </div>
     </nav>
     <div class="container">

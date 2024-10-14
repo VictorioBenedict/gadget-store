@@ -37,7 +37,7 @@
     </style>
 </head>
 <header>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-black navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon">Gadget Store
@@ -125,10 +125,7 @@
                 <div class="col-12 text-center mt-4">
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
-                    @endif    
-                    <div class="col-12 text-center">
-                        <h5>No products have been added by the admin.</h5>
-                    </div>            
+                    @endif             
                 </div>
             @else
                 @foreach ($product as $product)
@@ -140,7 +137,7 @@
                                 <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>
                                 <p class="card-text text-center small-text">{{ $product->description }}</p>
                                 <div class="text-center">
-                                    <a href="{{ route('login')}}" class="btn btn-outline-light">Add to Cart</a>
+                                    <a href="{{ route('login')}}" class="btn btn-outline-light">Buy Now</a>
                                 </div>
                             </div>
                         </div>
