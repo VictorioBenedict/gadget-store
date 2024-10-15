@@ -44,6 +44,8 @@ Route::delete('/cart/{id}', [PostController::class,'remove'])->name('remove')->m
 Route::post('/cart/{id}/update-quantity', [PostController::class,'updatequantity'])->name('updatequantity')->middleware(['auth','order']);
 Route::get('/order',[PostController::class,'order'])->name('order')->middleware(['auth','order']);
 Route::get('/orderlist',[PostController::class,'orderlist'])->name('orderlist')->middleware(['auth','order']);
+Route::get('/customer',[PostController::class,'customer'])->name('customer')->middleware(['auth','order']);
+Route::get('/customerview/{id}',[PostController::class,'customerview'])->name('customerview')->middleware(['auth','order']);
 Route::put('/order-status/{id}', [PostController::class,'updatestatus'])->name('updatestatus');
 
 

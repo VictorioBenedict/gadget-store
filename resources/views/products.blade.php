@@ -126,6 +126,7 @@
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
                     @endif             
+                    <p>No products found on this category.</p>     
                 </div>
             @else
                 @foreach ($product as $product)

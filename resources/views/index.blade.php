@@ -274,13 +274,12 @@
                 </div>
             </div>
             
-            
-            
             @if($product->isEmpty())
                 <div class="col-12 text-center mt-5">
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
-                    @endif             
+                    @endif        
+                    <p>No products found on this category.</p>     
                 </div>
             @else
                 @foreach ($product as $product)

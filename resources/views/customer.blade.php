@@ -45,10 +45,10 @@
                     <a class="nav-link" href="{{route('dashboard')}}">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('customer')}}">Customers</a>
+                    <a class="nav-link active" href="{{route('customer')}}">Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active position-relative" href="{{ route('orderlist') }}">
+                    <a class="nav-link  position-relative" href="{{ route('orderlist') }}">
                         Orders
                         @if($notification > 0)
                             <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
@@ -79,14 +79,14 @@
     </nav>
 
 <div class="container mt-5">
-    <h2 class="text-center">Order List</h2>
+    <h2 class="text-center">Customers Dashboard</h2>
     <div class="container mt-5">
         <div class="row justify-content-center">
          <div class="col-md-12">
              <div class="card border-2" style="background-color: #405D72">
                 <div class="card-body">
                  <div class="title text-center" style="color: #F5F7F8";>
-                     <img src="{{ asset('assets/cargo.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
+                     <img src="{{ asset('assets/order.png') }}" alt="User Logo" style="width: 50px; height: auto;" draggable="false">
                      <h5 class="mt-3">Total Orders: {{$count}}</h5>
                  </div>
                 </div>
@@ -97,44 +97,20 @@
         <thead>
             <tr class="text-center">
                 <th>User Name</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th style="width: 15%">Update Status</th>
-                <th style="width: 10%">Actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @if($orders->isEmpty())
+            @if($users->isEmpty())
                 <tr>
-                    <td colspan="7" class="text-center">No orders found.</td>
+                    <td colspan="2" class="text-center">No customers found.</td>
                 </tr>
             @else
-                @foreach($orders as $order)
+                @foreach($users as $user)
                 <tr class="text-center">
-                    <td>{{ $order->user_name }}</td>
-                    <td>{{ $order->name }}</td>
-                    <td>{{ $order->quantity }}</td>
-                    <td>₱{{ number_format($order->price, 2) }}</td>
-                    <td>{{ ucfirst($order->status) }}</td>
+                    <td>{{ $user->name }}</td>
                     <td>
-                        <form action="{{ route('updatestatus', $order->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('PUT')
-                            <select name="status" class="form-select" onchange="this.form.submit()">
-                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="accepted" {{ $order->status == 'accepted' ? 'selected' : '' }}>Accepted</option>
-                                <option value="rejected" {{ $order->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                            </select>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="{{ route('deleteorders', $order->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn btn-danger btn-sm" title="Delete Order" onclick="confirmDelete(event, this)">Delete</button>
-                        </form>
+                        <a href="{{ route('customerview', $user->id) }}" class="btn btn-primary">View Orders</a>
                     </td>
                 </tr>
                 @endforeach

@@ -85,7 +85,7 @@
     
     
 
-    <div class="container d-flex align-items-center justify-content-center mt-1">
+    <div class="container d-flex align-items-center justify-content-center">
         <div class="col-md-12 mt-5"> 
             <div class="card">
                 <div class="card-body">
@@ -151,8 +151,8 @@
                     </script>
                     @endif
                 </div>   
-                <div class="table-responsive mt-3">
-                    <table class="table table-bordered border-2 border-black mt-3 fw-bold">
+                <div class="table-responsive">
+                    <table class="table table-bordered border-2 border-black mt-2 fw-bold">
                         <thead>
                             <tr>
                                 <th style="width: 2%">Name</th>

@@ -57,11 +57,19 @@
                     <a class="nav-link active" href="#">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Customers</a>
+                    <a class="nav-link" href="{{route('customer')}}">Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('orderlist')}}">Orders</a>
-                </li>
+                    <a class="nav-link  position-relative" href="{{ route('orderlist') }}">
+                        Orders
+                        @if($notification > 0)
+                            <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+                                {{ $notification }}
+                                <span class="visually-hidden">new notifications</span>
+                            </span>
+                        @endif
+                    </a>
+                </li> 
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('users')}}">Users</a>
                 </li>

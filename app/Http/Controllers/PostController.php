@@ -72,8 +72,9 @@ class PostController extends Controller
         $query = $request->input('query');
         $date = Carbon::now()->format('d-m-y'); 
         $products = GadgetModel::paginate(4); 
+        $notification =  Order::where('created_at','>=',now()->subHour())->count();
         $count = $products->total(); 
-        return view("dashboard", compact("products", "count", "date","query"));
+        return view("dashboard", compact('products', 'count', 'date','query','notification'));
     }
 
     public function create()
@@ -311,10 +312,28 @@ class PostController extends Controller
         return view('order',compact('cartItems','loggedInUser','user','hasAcceptedStatus'));
     }
 
-    public function orderlist(Request $request){
+    public function orderlist(){
         $orders =  Order::paginate(4);
+        $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = Order::count();
-        return view ('orderlist',compact('orders','count'));
+        return view ('orderlist',compact('orders','count','notification'));
+    }
+
+    public function customer(){
+        $users = UserModel::where('role', 'user')->select('id', 'name')->get();
+        $orders =  Order::paginate(4);
+        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $count = Order::count();
+        return view('customer', compact('orders','users','count','notification'));
+    }
+
+    public function customerview(Request $request,$id){
+        $user = UserModel::findOrFail($id);
+        $orders = Order::where('user_id', $id)->paginate(4);
+        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $count = Order::count();
+        return view('customerview', compact('user', 'orders', 'count', 'notification'));
+
     }
 
     public function updatestatus(Request $request,$id){

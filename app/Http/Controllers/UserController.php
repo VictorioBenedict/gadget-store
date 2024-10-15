@@ -20,8 +20,9 @@ class UserController extends Controller
             ->paginate(4);
         
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
+        $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = $users->total(); 
-        return view('users', compact('users', 'userCount','count','query'));
+        return view('users', compact('users', 'userCount','count','query','notification'));
 
     }
 
@@ -31,8 +32,9 @@ class UserController extends Controller
             ->where('role',  'admin') 
             ->paginate(4);
         $adminCount = UserModel::where('role', 'admin')->count(); 
+        $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = $users->total(); 
-        return view('admins', compact('users', 'adminCount','count','query'));
+        return view('admins', compact('users', 'adminCount','count','query','notification'));
 
     }
 
