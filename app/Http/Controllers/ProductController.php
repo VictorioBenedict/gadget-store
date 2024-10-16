@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use Illuminate\Http\Request;
 use App\Models\GadgetModel;
 use App\Models\UserModel;
 use App\Models\Order;
+use Maatwebsite\Excel\Facades\Excel;
+
 class ProductController extends Controller
 {
     public function search(Request $request)
@@ -117,5 +120,10 @@ class ProductController extends Controller
         $query = $request->input('query');
         $product = GadgetModel::where('category','television')->get();
         return view("products", compact("product",'query'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new ProductExport, 'gadget.xlsx');
     }
 }

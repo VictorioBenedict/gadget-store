@@ -163,6 +163,7 @@
                     </div>
                     @endif 
                 </div>
+
                 <div class="col-md-5">
                     <div class="card border-2" style="background-color: #405D72">
                         <div class="card-body">
@@ -183,8 +184,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-center col-md-10 mt-2">
+                    <a href="{{route('export')}}" class="btn btn-primary">Download Products</a>
+                </div>
             </div>
-            
             
 
             <div class="container mt-2">

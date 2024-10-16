@@ -88,3 +88,5 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/searchuser', [ProductController::class, 'searchuser'])->name('searchuser');
 Route::get('/searchadmin', [ProductController::class, 'searchadmin'])->name('searchadmin');
+
+Route::get('/export-products', [ProductController::class, 'export'])->name('export');
