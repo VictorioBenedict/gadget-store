@@ -79,7 +79,7 @@
     </nav>
 
     <div class="container mt-5">
-        <h3 class="text-center mt-4">Orders for {{ $user->name }}</h3> <!-- Display user name once -->
+        <h3 class="text-center mt-4">Orders for {{ $user->name }}</h3> 
         
         <div class="table-responsive">
             <table class="table table-bordered text-center text-black mt-5">

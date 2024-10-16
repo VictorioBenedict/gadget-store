@@ -34,6 +34,33 @@
         .small-text{
             font-size: 1rem;
         }
+        .custom-card {
+            width: 250px;
+        }
+
+        @media (max-width: 768px) {
+            .custom-card {
+                width: 50%; 
+                justify-content: start
+                margin: 0 auto; 
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1023px) {
+            .custom-card {
+                width: 50%; 
+                justify-content: start
+                margin: 0 auto; 
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .custom-card {
+                width: 20%; 
+                justify-content: start
+                margin: 0 auto; 
+            }
+        }
     </style>
 </head>
 <header>
@@ -66,11 +93,11 @@
 </header>
 <body class="bg-secondary">
     <div class="container">
-        <div class="row justify-content-start">
+        <div class="row justify-content-start mt-1">
             <div class="title text-center mt-2 text-black"><h3>Welcome to Gadget Store</h3></div>
-            <p class="text text-center mt-1 text-black">Connecting you to the world, one device at a time.</p>
-            <p class="text-black ">Select Categories:</p>
-            <div class="d-flex gap-3">
+            <p class="text text-center text-black">Connecting you to the world, one device at a time.</p>
+            <p class="d-none d-sm-flex gap-3 text-black">Select Categories:</p>
+            <div class="d-none d-flex gap-3">
                 <a href="{{ route('all') }}">
                     <button class="btn btn-outline-dark">All</button>
                 </a>
@@ -112,7 +139,7 @@
                 @endif
             </div>   
 
-            <div class="container mt-4">
+            <div class="container mt-2 mb-2">
                 <div class="d-flex justify-content-center">
                     <form class="d-flex w-50 gap-2" action="{{ route('products') }}" method="GET">
                         <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
@@ -122,7 +149,7 @@
             </div>         
 
             @if($product->isEmpty())
-                <div class="col-12 text-center mt-4">
+                <div class="col-12 text-center mt-5">
                     @if($query && $product->isEmpty())
                         <p class="text-black">No products found for your search: "{{ $query }}"</p>
                     @endif             
@@ -130,8 +157,8 @@
                 </div>
             @else
                 @foreach ($product as $product)
-                    <div class="col-md-3 mb-4 mt-3" style="width: 250px;">
-                        <div class="card bg-black text-white">
+                    <div class="col-md-3 mb-3 custom-card">
+                        <div class="card bg-black text-white mt-2">
                             <img src="{{ asset('images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" draggable="false">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title text-center">{{ $product->name }}</h5>

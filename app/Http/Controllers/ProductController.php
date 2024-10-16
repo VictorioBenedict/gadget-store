@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GadgetModel;
 use App\Models\UserModel;
-
+use App\Models\Order;
 class ProductController extends Controller
 {
     public function search(Request $request)
@@ -14,8 +14,8 @@ class ProductController extends Controller
         $products = GadgetModel::where('name', 'LIKE', "%{$query}%")->paginate(4);
         $count = GadgetModel::count();
         $date = now()->format('Y-m-d');
-    
-        return view('dashboard', compact('products', 'count', 'date', 'query'));
+        $notification =  Order::where('created_at','>=',now()->subHour())->count();
+        return view('dashboard', compact('products', 'count', 'date', 'query','notification'));
     }
 
     public function searchuser(Request $request)
@@ -30,11 +30,12 @@ class ProductController extends Controller
             }
         })
         ->paginate(4);
+        $notification =  Order::where('created_at','>=',now()->subHour())->count();
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 
     
-        return view('users', compact('users', 'query', 'userCount', 'adminCount', 'count'));
+        return view('users', compact('users', 'query', 'userCount', 'adminCount', 'count','notification'));
     }
     public function searchadmin(Request $request){
         $query = $request->input('input');
@@ -47,12 +48,12 @@ class ProductController extends Controller
                 }
             })
             ->paginate(4);
-
+        $notification =  Order::where('created_at','>=',now()->subHour())->count();
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 
 
-        return view('admins', compact('users', 'query', 'userCount', 'adminCount', 'count'));
+        return view('admins', compact('users', 'query', 'userCount', 'adminCount', 'count','notification'));
 
     }
     
