@@ -94,7 +94,8 @@
             <div class="col mt-5">
                 <div class="title text-center" style="color: #131842"><h3>Admin Dashboard</h3></div>
                 <div class="container">
-                    <a href="{{route('add-user')}}"><button class="btn btn-light" style="color: #272829";>Add new account</button></a>                
+                    <a href="{{route('add-user')}}"><button class="btn btn-light" style="color: #272829";>Add new account</button></a>
+                    <a href="{{route('userexport')}}" class="btn btn-light">Download Users</a>                
                 </div>   
                 <div class="container">
                     @if(session('success'))

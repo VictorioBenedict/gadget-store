@@ -320,11 +320,10 @@ class PostController extends Controller
     }
 
     public function customer(){
-        $users = UserModel::where('role', 'user')->select('id', 'name')->get();
-        $orders =  Order::paginate(4);
+        $users = UserModel::where('role', 'user')->select('id', 'name')->paginate(5);
         $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = Order::count();
-        return view('customer', compact('orders','users','count','notification'));
+        return view('customer', compact('users','count','notification'));
     }
 
     public function customerview(Request $request,$id){

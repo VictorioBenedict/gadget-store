@@ -185,7 +185,7 @@
                     </div>
                 </div>
                 <div class="text-center col-md-10 mt-2">
-                    <a href="{{route('export')}}" class="btn btn-primary">Download Products</a>
+                    <a href="{{route('export')}}" class="btn btn-light">Download Products</a>
                 </div>
             </div>
             

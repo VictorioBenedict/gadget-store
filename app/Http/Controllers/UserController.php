@@ -17,7 +17,7 @@ class UserController extends Controller
         $query = $request->input('input');
         $users = UserModel::select('id', 'name', 'email', 'role') 
             ->where('role', '!=', 'admin') 
-            ->paginate(4);
+            ->paginate(5);
         
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $notification = Order::where('created_at', '>=', now()->subHour())->count();
@@ -30,7 +30,7 @@ class UserController extends Controller
         $query = $request->input('input');
         $users = UserModel::select('id', 'name', 'email', 'role') 
             ->where('role',  'admin') 
-            ->paginate(4);
+            ->paginate(5);
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = $users->total(); 
@@ -210,6 +210,6 @@ class UserController extends Controller
     public function deleteuser($id){
         $user = UserModel::findOrFail($id);
         $user -> delete();
-        return redirect()->route('users')->with('success','User Deleted Successfully.');
+        return redirect()->route('admins')->with('success','User Deleted Successfully.');
     }
 }

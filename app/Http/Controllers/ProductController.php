@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ProductExport;
+use App\Exports\UserExport;
 use Illuminate\Http\Request;
 use App\Models\GadgetModel;
 use App\Models\UserModel;
@@ -124,6 +125,11 @@ class ProductController extends Controller
 
     public function export()
     {
-        return Excel::download(new ProductExport, 'gadget.xlsx');
+        return Excel::download(new ProductExport, 'products.xlsx');
+    }
+
+    public function userexport()
+    {
+        return Excel::download(new UserExport, 'users.xlsx');
     }
 }

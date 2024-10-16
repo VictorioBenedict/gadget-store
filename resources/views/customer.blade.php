@@ -120,10 +120,10 @@
 
     <div class="d-flex justify-content-between">
         <p>
-            Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} results
+            Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} results
         </p>
         <div>
-            {{ $orders->links('pagination::bootstrap-4') }}
+            {{ $users->links('pagination::bootstrap-4') }}
         </div>
     </div>
 </div>

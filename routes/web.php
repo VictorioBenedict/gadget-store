@@ -90,3 +90,4 @@ Route::get('/searchuser', [ProductController::class, 'searchuser'])->name('searc
 Route::get('/searchadmin', [ProductController::class, 'searchadmin'])->name('searchadmin');
 
 Route::get('/export-products', [ProductController::class, 'export'])->name('export');
+Route::get('/export-users', [ProductController::class, 'userexport'])->name('userexport');
