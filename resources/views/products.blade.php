@@ -97,7 +97,7 @@
             <div class="title text-center mt-2 text-black"><h3>Welcome to Gadget Store</h3></div>
             <p class="text text-center text-black">Connecting you to the world, one device at a time.</p>
             <p class="d-none d-sm-flex gap-3 text-black">Select Categories:</p>
-            <div class="d-none d-flex gap-3">
+            <div class="d-none d-sm-flex gap-3">
                 <a href="{{ route('all') }}">
                     <button class="btn btn-outline-dark">All</button>
                 </a>
