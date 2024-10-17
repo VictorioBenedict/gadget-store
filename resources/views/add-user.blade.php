@@ -84,7 +84,7 @@
     </div>
 </body>
 <script>
-     document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         @if ($errors->has('email'))
             Swal.fire({
                 icon: 'error',

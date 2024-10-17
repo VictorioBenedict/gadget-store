@@ -103,7 +103,9 @@
     <nav class="navbar navbar-expand-sm bg-black navbar-dark">
         <div class="container">
             <span class="navbar-brand">
+                <a href="{{ route('index') }}" style="text-decoration: none; color: inherit;">
                 <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store
+                </a>
             </span>       
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -204,7 +206,7 @@
             <a href="{{ route('television') }}">
                 <button class="btn btn-outline-dark">Television</button>
             </a>
-            <form class="d-flex w-50 gap-2 ms-auto" action="{{ route('index') }}" method="GET">
+            <form class="d-flex w-25 gap-2 ms-auto" action="{{ route('index') }}" method="GET">
                 <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search"
                     aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
                 <button class="btn btn-light border border-black" type="submit">Search</button>
@@ -315,9 +317,10 @@
             @endif
         </div>
     </div>
+    @include('partials.footer')
 </body>
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('editProfileForm');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('password_confirmation');

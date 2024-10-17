@@ -74,7 +74,7 @@
                             <a class="nav-link" href="#features">Features</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route ('products')}}">Products</a>
+                            <a class="nav-link" href="{{route('products')}}">Products</a>
                         </li>
                     </ul>
                 </div>
@@ -91,7 +91,7 @@
                     <p class="lead text-white pb-3">
                         Explore our latest gadgets designed to elevate your digital lifestyle.
                     </p>
-                    <a href="{{route ('login')}}" class="btn btn-light px-5 d-inline-block mt-4">Shop Now</a>
+                    <a href="{{route('login')}}" class="btn btn-light px-5 d-inline-block mt-4">Shop Now</a>
                 </div>
                 <div class="col-12 col-lg-5 mt-5 mt-lg-0 text-center">
                     <img src="/assets/iphone.png" class="img-fluid" alt="iPhone Image">
@@ -172,6 +172,7 @@
         </div>
     </section>
 
+    @include('partials.footer')
     <!-- JavaScript and Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
