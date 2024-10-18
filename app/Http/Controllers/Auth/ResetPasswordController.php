@@ -18,7 +18,7 @@ class ResetPasswordController extends Controller
     {
         $request->validate([
             'email' => 'required|string|email|exists:users,email',
-            'password' => 'required|string|min:8|confirmed|regex:/[0-9]/',
+            'password' => 'nullable|string|min:8',
         ]);
 
         $user = UserModel::where('email', $request->email)->first();
