@@ -160,7 +160,7 @@
                     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active" data-bs-interval="5000">
-                                <div class="d-flex justify-content-center flex-wrap"> <!-- Use flex-wrap for responsiveness -->
+                                <div class="d-flex justify-content-center flex-wrap"> 
                                     <img src="{{ asset('assets/game-over.gif') }}" class="carousel-image" draggable="false">
                                     <img src="{{ asset('assets/gamer.gif') }}" class="carousel-image" draggable="false">
                                     <img src="{{ asset('assets/games.gif') }}" class="carousel-image" draggable="false">
@@ -270,6 +270,9 @@ $total = 0;
                             @endif
                         </tbody>
                     </table>
+                    <h4>
+                        Address: {{$user->address}}
+                    </h4>
                     <tr>
                         <td colspan="5" style="text-align:right;">
                             <form action="{{route('session') }}" method="POST" >
@@ -284,7 +287,7 @@ $total = 0;
                                 </div>                          
                             </form>
                         </td>                        
-                    </tr>              
+                    </tr>          
                 </div>
             </div>
         </div>
@@ -292,7 +295,6 @@ $total = 0;
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Function to update quantity and total via AJAX
             function updateQuantityAndTotal(id, quantity) {
                 $.ajax({
                     url: '/cart/' + id + '/update-quantity',
@@ -313,7 +315,6 @@ $total = 0;
                 });
             }
 
-            // Handle increment button click
             $(document).on('click', '.increment-btn', function() {
                 var id = $(this).data('id');
                 var input = $('input[data-id="' + id + '"]');
@@ -326,7 +327,6 @@ $total = 0;
                 }
             });
 
-            // Handle decrement button click
             $(document).on('click', '.decrement-btn', function() {
                 var id = $(this).data('id');
                 var input = $('input[data-id="' + id + '"]');
@@ -339,7 +339,6 @@ $total = 0;
                 }
             });
 
-            // Handle delete button click
             $(document).on('click', '.delete-btn', function(event) {
                 event.preventDefault();
                 var form = $(this).closest('form');
@@ -359,7 +358,6 @@ $total = 0;
             });
         });
 
-        // Helper function to format numbers
         function number_format(number, decimals, dec_point, thousands_sep) {
             number = parseFloat(number);
             if (!decimals) decimals = 0;

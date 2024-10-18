@@ -15,7 +15,7 @@ class UserController extends Controller
 
     public function users(Request $request){
         $query = $request->input('input');
-        $users = UserModel::select('id', 'name', 'email', 'role') 
+        $users = UserModel::select('id', 'name', 'email', 'role','address') 
             ->where('role', '!=', 'admin') 
             ->paginate(5);
         
@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function admins(Request $request){
         $query = $request->input('input');
-        $users = UserModel::select('id', 'name', 'email', 'role') 
+        $users = UserModel::select('id', 'name', 'email', 'role','address') 
             ->where('role',  'admin') 
             ->paginate(5);
         $adminCount = UserModel::where('role', 'admin')->count(); 
@@ -45,9 +45,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:8|max:20|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:3',
+            'address' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
             'confirmpassword' => 'required|string|min:3',
         ]);
 
@@ -63,6 +64,7 @@ class UserController extends Controller
             $user = UserModel::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'address' => $request->address,
                 'password' => Hash::make($request->password),
                 'role' => $request->input('userrole'), 
             ]);
@@ -72,14 +74,16 @@ class UserController extends Controller
 
     public function add(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:8|max:20|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:3',
+            'address' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
             'role' => 'required|string|in:user,admin',
         ]);
         UserModel::create([
             'name' => $request->name,
             'email' => $request->email,
+            'address' => $request->address,
             'password' => Hash::make($request->password), 
             'role' => $request->role,
         ]);
@@ -133,13 +137,15 @@ class UserController extends Controller
 
     public function registerpost(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255', 
+            'name' => 'required|string|min:8|max:20|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:3|confirmed', 
+            'address' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
         ]);
         UserModel::create([
             'name' => $request->name, 
             'email' => $request->email,
+            'address' => $request->address,
             'password' => Hash::make($request->password), 
             'role' => 'admin', 
         ]);
@@ -149,13 +155,15 @@ class UserController extends Controller
 
     public function registers(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255', 
+            'name' => 'required|string|min:8|max:20|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:3|confirmed', 
+            'address' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
         ]);
         UserModel::create([
             'name' => $request->name, 
             'email' => $request->email,
+            'address' => $request->address,
             'password' => Hash::make($request->password), 
             'role' => 'user', 
         ]);
@@ -170,15 +178,17 @@ class UserController extends Controller
 
     public function updateuser(Request $request, $id){
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:8|max:20|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:3|',
+            'password' => 'nullable|string|min:8',
+            'address' => 'required|string|max:255',
             'role' => 'required|string|in:user,admin',
         ]);
     
         $user = UserModel::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->address = $request->address;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
@@ -190,9 +200,10 @@ class UserController extends Controller
 
     public function updateprofile(Request $request, $id){
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:8|max:20|regex:/^[A-Za-z\s]+$/',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:3|',
+            'address' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
             'role' => 'required|string|in:user,admin',
         ]);
     
@@ -203,6 +214,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->role = $request->role;
+        $user->address = $request->address;
         $user->save();
         return redirect()->route('index')->with('success', 'Profile Updated Successfully.');
     }

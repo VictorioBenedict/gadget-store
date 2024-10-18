@@ -209,9 +209,6 @@ $total = 0;
                     <tr>
                         <td colspan="5" style="text-align:right;">
                             <div class="d-flex gap-1">
-                                <!-- <a href="{{ url('index') }}" class="btn btn-primary">
-                                    <i class="fa fa-arrow-left"></i> Continue Shopping
-                                </a> -->
                                 @if ($total > 0 && !$hasAcceptedStatus)
                                     <button class="btn btn-danger" id="cancel-orders-btn">Cancel All Orders</button>
                                 @else

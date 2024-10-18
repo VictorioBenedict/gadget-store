@@ -63,6 +63,10 @@
                                 <input type="email" id="email" name="email" class="form-control" required style="width: 400px;" autocomplete="off">
                             </div>
                             <div class="form-group">
+                                <label for="address">Address:</label>
+                                <input type="address" id="address" name="address" class="form-control" required style="width: 400px;" autocomplete="off">
+                            </div>
+                            <div class="form-group">
                                 <label for="password">Password:</label>
                                 <input type="password" id="password" name="password" class="form-control" style="width: 400px;" autocomplete="off">
                             </div>

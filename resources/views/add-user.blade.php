@@ -64,6 +64,11 @@
                         <label for="password">Password:</label>
                         <input type="password" class="form-control mx-auto w-50" id="password" name="password" required autocomplete="off">
                     </div>
+                    
+                    <div class="form-group mt-1 text-black text-center mb-2">
+                        <label for="address">Address:</label>
+                        <input type="address" class="form-control mx-auto w-50" id="address" name="address" required autocomplete="off">
+                    </div>
 
                     <div class="form-group mt-1 text-black text-center mb-2">
                         <label for="role">Role:</label>
@@ -93,5 +98,14 @@
             });
         @endif
     });
+
+    @if ($errors->any())
+        Swal.fire({
+            title: "Error!",
+            text: "{{ $errors->first() }}",
+            icon: "error",
+            confirmButtonText: "Okay",
+    });
+    @endif
 </script>
 </html>
