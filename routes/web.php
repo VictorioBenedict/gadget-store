@@ -91,3 +91,4 @@ Route::get('/searchadmin', [ProductController::class, 'searchadmin'])->name('sea
 
 Route::get('/export-products', [ProductController::class, 'export'])->name('export');
 Route::get('/export-users', [ProductController::class, 'userexport'])->name('userexport');
+Route::get('/export-orders',[ProductController::class, 'orderexport'])->name('orderexport');

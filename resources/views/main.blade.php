@@ -72,7 +72,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(56,56,222,1) 0%, rgba
                             <a class="nav-link" href="#about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#features">Features</a>
+                            <a class="nav-link" href="#features">Contact Us</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('products')}}">Products</a>

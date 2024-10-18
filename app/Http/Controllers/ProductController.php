@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrderExport;
 use App\Exports\ProductExport;
 use App\Exports\UserExport;
 use Illuminate\Http\Request;
@@ -131,5 +132,10 @@ class ProductController extends Controller
     public function userexport()
     {
         return Excel::download(new UserExport, 'users.xlsx');
+    }
+
+    public function orderexport()
+    {
+        return Excel::download(new OrderExport, 'orders.xlsx');
     }
 }
