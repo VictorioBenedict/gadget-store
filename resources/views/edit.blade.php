@@ -98,3 +98,14 @@
     </div>
 </body>
 </html>
+
+<script>
+    @if ($errors->any())
+        Swal.fire({
+            title: "Error!",
+            text: "{{ $errors->first() }}",
+            icon: "error",
+            confirmButtonText: "Okay",
+    });
+    @endif
+</script>

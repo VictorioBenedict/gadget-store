@@ -88,16 +88,16 @@ class PostController extends Controller
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048', // Max 2MB, can adjust as needed
+            'image' => 'nullable|image|max:2048', 
             'price' => 'required|numeric|min:0',
         ]);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image'); // Use file() method to retrieve uploaded file
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate unique image name
-            $image->move(public_path('images'), $imageName); // Move image to public/images directory
+            $image = $request->file('image'); 
+            $imageName = time() . '.' . $image->getClientOriginalExtension(); 
+            $image->move(public_path('images'), $imageName); 
         } else {
-            $imageName = null; // Default image name if no image uploaded
+            $imageName = null; 
         }
 
         $product = new GadgetModel();
@@ -240,7 +240,7 @@ class PostController extends Controller
     {
     \Stripe\Stripe::setApiKey(config('stripe.sk'));
 
-    $cart = $request->session()->get('cart'); // Assuming cart details are stored in session
+    $cart = $request->session()->get('cart'); 
     $total = 0;
     foreach ($cart as $id => $product) {
         $total += $product['price'] * $product['quantity'];
@@ -312,15 +312,25 @@ class PostController extends Controller
         return view('order',compact('cartItems','loggedInUser','user','hasAcceptedStatus'));
     }
 
-    public function orderlist(){
-        $orders =  Order::paginate(4);
+    public function orderlist(Request $request){
+        $status = $request->input('status', 'pending');
+
+        if($status === 'pending'){
+            $orders = Order::where('status','pending')->paginate(4);
+        }
+        elseif($status === 'accepted'){
+            $orders = Order::where('status', 'accepted')->paginate(4);
+        }
+        else {
+            $orders = Order::where('status', 'rejected')->paginate(4);
+        }
         $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = Order::count();
         return view ('orderlist',compact('orders','count','notification'));
     }
 
     public function customer(){
-        $users = UserModel::where('role', 'user')->select('id', 'name')->paginate(5);
+        $users = UserModel::where('role', 'user')->select('id', 'name','address')->paginate(5);
         $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = Order::count();
         return view('customer', compact('users','count','notification'));
