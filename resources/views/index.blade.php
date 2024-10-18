@@ -71,6 +71,26 @@
                 margin: 5px; 
         }
 
+        .dropdown-divider {
+        background-color: #ffffff;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+        background-color: #333333;
+        color: #ffffff;
+        }
+
+        .user-dropdown {
+        color: #B0B0B0; /* Light gray color */
+        transition: color 0.3s ease;
+        }
+
+        .user-dropdown:hover,
+        .user-dropdown:focus {
+        color: #ffffff; /* White */
+        }
+
         @media (max-width: 768px) {
             .carousel-image {
                 width: 80px; 
@@ -93,35 +113,32 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('index') }}">Products</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{$loggedInUser}}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ route('order') }}">Order History</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-outline-light position-relative" href="{{ route('cart') }}">
+                <div class="d-flex justify-content-end flex-column flex-sm-row align-items-center">
+                    <a class="btn btn-outline-light position-relative me-sm-3 my-2 my-sm-0" href="{{ route('cart') }}">
                         <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
-                        <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+                        <span class="badge rounded-pill bg-danger position-absolute cart-badge">
                             {{ count((array) session('cart')) }}
                             <span class="visually-hidden">items in cart</span>
                         </span>
                     </a>
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false"> Hi, {{$loggedInUser}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('order') }}">Order History</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a class="dropdown-item" href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
                 </div>
             </div>
         </div>
@@ -129,7 +146,7 @@
     
     
     
-      
+    
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -172,10 +189,10 @@
         </div>
     </div>
     
-    <div class="container">
-        <div class="row justify-content-start mt-1">
+    <div class="container mt-4">
+        <div class="row justify-content-start mt-1 mb-2">
             <p class="d-none d-sm-flex gap-3 text-black">Select Categories:</p>
-        <div class="d-none d-sm-flex gap-3">
+        <div class="d-flex gap-3 flex-wrap">
             <a href="{{ route('index') }}">
                 <button class="btn btn-outline-dark">All</button>
             </a>
@@ -191,6 +208,13 @@
             <a href="{{ route('television') }}">
                 <button class="btn btn-outline-dark">Television</button>
             </a>
+            <form class="d-flex w-50 gap-2 ms-auto" action="{{ route('index') }}" method="GET">
+                <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search"
+                    aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
+                <button class="btn btn-light border border-black" type="submit">Search</button>
+            </form>
+            <div class="container">
+            </div>
         </div>
 
 
@@ -217,15 +241,6 @@
                     </script>
                 @endif
             </div>   
-
-            <div class="container mt-2 mb-2">
-                <div class="d-flex justify-content-center">
-                    <form class="d-flex w-50 gap-2" action="{{ route('index') }}" method="GET">
-                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
-                        <button class="btn btn-light border border-black" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
 
             <div class="container d-flex align-items-center justify-content-center">
                 <div class="col-md-12"> 
@@ -293,6 +308,7 @@
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title text-center">{{ $product->name }}</h5>
                                 <p class="card-text text-center">Price: ₱{{ number_format($product->price, 2) }}</p>
+                                <p class="card-text text-center small-text">{{ $product->description }}</p>
                                 <div class="text-center">
                                     <a href="{{ route('addtocart', $product->id) }}" class="btn btn-outline-light">Add to Cart</a>
                                 </div>

@@ -27,7 +27,7 @@
         /* Adjust padding for each section */
         .header {
             background-color: #257dfd;
-            padding-top: 100px; /* Adjust top padding as needed */
+            margin-top: -20px;
         }
         .about {
             background-color: #f8f9fa;
@@ -124,7 +124,6 @@
                         <p>
                             Founded on a passion for technology and driven by a commitment to quality, we strive to deliver excellence in both products and customer service. Our team of experts is always on hand to provide guidance and support, helping you make informed decisions that align with your tech preferences and lifestyle.
                         </p>
-                        <button class="btn btn-primary px-5 d-inline-block mt-4">Read More</button>
                     </div>
                 </div>
             </div>
