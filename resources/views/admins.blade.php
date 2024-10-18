@@ -155,6 +155,7 @@
                         <tr class="text-center">
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Address</th>
                             <th>Role</th>
                             <th>Action</th> 
                         </tr>
@@ -164,6 +165,7 @@
                         <tr class="text-center">
                             <td>{{ $user->name }}</td> 
                             <td>{{ $user->email }}</td>
+                            <td>{{$user->address}}</td>
                             <td>{{ $user->role }}</td>
                             <td>
                                 <a href="{{ route('edit-user', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
@@ -176,7 +178,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center">No admin found.</td>
+                            <td colspan="5" class="text-center">No admin found.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -218,5 +220,14 @@
             }
         });
     }
+
+    @if ($errors->any())
+        Swal.fire({
+            title: "Error!",
+            text: "{{ $errors->first() }}",
+            icon: "error",
+            confirmButtonText: "Okay",
+    });
+    @endif
 </script>
 </html>

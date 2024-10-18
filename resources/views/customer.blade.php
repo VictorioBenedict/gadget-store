@@ -97,6 +97,7 @@
         <thead>
             <tr class="text-center">
                 <th>User Name</th>
+                <th>Address</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -108,7 +109,8 @@
             @else
                 @foreach($users as $user)
                 <tr class="text-center">
-                    <td>{{ $user->name }}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->address}}</td>
                     <td>
                         <a href="{{ route('customerview', $user->id) }}" class="btn btn-primary">View Orders</a>
                     </td>

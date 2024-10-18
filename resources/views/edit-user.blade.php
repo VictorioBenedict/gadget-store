@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
     <title>Edit User</title>
     <style>
@@ -66,6 +67,11 @@
                     </div>
 
                     <div class="form-group mt-1 text-black text-center mb-2">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control mx-auto w-50" id="address" name="address" value="{{ $user->address }}" required>
+                    </div>                    
+
+                    <div class="form-group mt-1 text-black text-center mb-2">
                         <label for="role">Role:</label>
                         <select class="form-select mx-auto w-50" id="role" name="role" required>
                             <option value="" disabled selected>Select Role</option>
@@ -84,3 +90,14 @@
     </div>
 </body>
 </html>
+
+<script>
+    @if ($errors->any())
+        Swal.fire({
+            title: "Error!",
+            text: "{{ $errors->first() }}",
+            icon: "error",
+            confirmButtonText: "Okay",
+    });
+    @endif
+</script>

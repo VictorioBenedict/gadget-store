@@ -80,7 +80,14 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Order List</h2>
-    <div class="container mt-5">
+    <div class="container">
+        <form method="GET" action="{{ route('orderlist') }}" class="d-inline">
+            <button type="submit" name="status" value="pending" class="btn btn-warning">Pending</button>
+            <button type="submit" name="status" value="accepted" class="btn btn-success">Accepted</button>
+            <button type="submit" name="status" value="rejected" class="btn btn-danger">Rejected</button>
+        </form>
+    </div>
+    <div class="container mt-3">
         <div class="row justify-content-center">
          <div class="col-md-12">
              <div class="card border-2" style="background-color: #405D72">

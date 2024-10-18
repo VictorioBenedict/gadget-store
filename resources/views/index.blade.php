@@ -150,6 +150,10 @@
                             <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" readonly>
                         </div>
                         <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="address" class="form-control" id="address" name="address" value="{{ $user->address }}">
+                        </div>
+                        <div class="mb-3">
                             <label for="password">Password:</label>
                             <input type="password" id="password" name="password" class="form-control" placeholder="Update Password (Leave blank if you don't want to change)" autocomplete="off">
                         </div>
@@ -321,5 +325,14 @@
         }
     });
 });
+
+@if ($errors->any())
+        Swal.fire({
+            title: "Error!",
+            text: "{{ $errors->first() }}",
+            icon: "error",
+            confirmButtonText: "Okay",
+});
+@endif
 </script>
 </html>
