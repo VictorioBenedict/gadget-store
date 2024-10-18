@@ -84,7 +84,7 @@
                         <a class="nav-link" href="{{ route('main') }}#features">Features</a>
                     </li>                                       
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{route ('products')}}">Products</a>
+                        <a class="nav-link active" href="{{route('products')}}">Products</a>
                     </li>
                 </ul>
             </div>
@@ -97,7 +97,7 @@
             <div class="title text-center mt-2 text-black"><h3>Welcome to Gadget Store</h3></div>
             <p class="text text-center text-black">Connecting you to the world, one device at a time.</p>
             <p class="d-none d-sm-flex gap-3 text-black">Select Categories:</p>
-            <div class="d-none d-sm-flex gap-3">
+            <div class="d-flex gap-3 flex-wrap">
                 <a href="{{ route('all') }}">
                     <button class="btn btn-outline-dark">All</button>
                 </a>
@@ -113,8 +113,14 @@
                 <a href="{{ route('televisionn') }}">
                     <button class="btn btn-outline-dark">Television</button>
                 </a>
+                <form class="d-flex w-25 gap-2 ms-auto" action="{{ route('products') }}" method="GET">
+                    <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search"
+                        aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
+                    <button class="btn btn-light border border-black" type="submit">Search</button>
+                </form>
+                <div class="container">
+                </div>
             </div>
-
             <div class="text-center"> 
                 @if (session('success'))
                     <script>
@@ -137,16 +143,7 @@
                         });
                     </script>
                 @endif
-            </div>   
-
-            <div class="container mt-2 mb-2">
-                <div class="d-flex justify-content-center">
-                    <form class="d-flex w-50 gap-2" action="{{ route('products') }}" method="GET">
-                        <input class="form-control form-control-sm border-black" type="text" name="query" placeholder="Search" aria-label="Search" value="{{ old('query', $query) }}" autocomplete="off">
-                        <button class="btn btn-light border border-black" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>         
+            </div>
 
             @if($product->isEmpty())
                 <div class="col-12 text-center mt-5">
@@ -174,5 +171,6 @@
             @endif
         </div>
     </div>
+    @include('partials.footer')
 </body>
 </html>

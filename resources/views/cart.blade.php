@@ -68,7 +68,9 @@
     <nav class="navbar navbar-expand-sm bg-black navbar-dark">
         <div class="container">
             <span class="navbar-brand">
+                <a href="{{ route('index') }}" style="text-decoration: none; color: inherit;">
                 <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon" draggable="false">Gadget Store
+                </a>
             </span>       
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -76,15 +78,81 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">Products</a>
+                        <a class="nav-link active" href="{{ route('index') }}">Products</a>
                     </li>
                 </ul>
+                <div class="d-flex justify-content-end flex-column flex-sm-row align-items-center">
+                    <a class="btn btn-outline-light position-relative me-sm-3 my-2 my-sm-0" href="{{ route('cart') }}">
+                        <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> Cart
+                        <span class="badge rounded-pill bg-danger position-absolute cart-badge">
+                            {{ count((array) session('cart')) }}
+                            <span class="visually-hidden">items in cart</span>
+                        </span>
+                    </a>
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false"> Hi, {{$loggedInUser}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('order') }}">Order History</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a class="dropdown-item" href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                </div>
             </div>
         </div>
     </nav>
-    
-    
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm" method="POST" action="{{ route('updateprofile', $user->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}"
+                                placeholder="Enter your name" required autocomplete="off">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}"
+                                readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Update Password (Leave blank if you don't want to change)" autocomplete="off">
+                        </div>
+                        <input type="hidden" name="role" value="user">
+                        <div class="mb-3">
+                            <label for="password_confirmation">Confirm Password:</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                class="form-control" placeholder="Confirm Your Password" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="container d-flex align-items-center justify-content-center">
         <div class="col-md-12 mt-5"> 
             <div class="card">
@@ -164,7 +232,7 @@
                         </thead>
                         <tbody>
                             @php
-                                $total = 0;
+$total = 0;
                             @endphp
                              @forelse($cart as $id => $product)
                              <tr id="product-{{ $id }}">
@@ -187,7 +255,7 @@
                                  <td id="total-{{ $id }}">{{ '₱ ' . number_format($product['price'] * $product['quantity'], 2, '.', ',') }}</td>
                              </tr>
                              @php
-                                 $total += $product['price'] * $product['quantity'];
+    $total += $product['price'] * $product['quantity'];
                              @endphp
                          @empty
                              <tr>
@@ -207,7 +275,7 @@
                     </h4>
                     <tr>
                         <td colspan="5" style="text-align:right;">
-                            <form action="{{route ('session') }}" method="POST" >
+                            <form action="{{route('session') }}" method="POST" >
                                 @csrf
                                 <div class="d-flex gap-1">
                                     <a href="{{ url('index') }}" class="btn btn-primary">
@@ -301,6 +369,28 @@
             var thousandString = thousands_sep ? numbersString.replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep) : numbersString;
             return (number < 0 ? '-' : '') + thousandString + decimalsString;
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('editProfileForm');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('password_confirmation');
+            const saveButton = document.getElementById('saveChanges');
+
+            saveButton.addEventListener('click', function (event) {
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    event.preventDefault();
+                    Swal.fire({
+                        title: "Passwords do not match!",
+                        text: "Please ensure both passwords are the same.",
+                        icon: "warning",
+                        confirmButtonText: "Okay",
+                    });
+                } else {
+                    form.submit();
+                }
+            });
+        });
     </script>
 </body>
 </html>
