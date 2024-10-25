@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function searchuser(Request $request)
     {
         $query = $request->input('input');
-        $users = UserModel::select('id', 'name', 'email', 'role') // Include necessary columns including 'id'
+        $users = UserModel::select('id', 'name', 'email', 'address', 'role') // Include necessary columns including 'id'
         ->where('role', '!=', 'admin') // Exclude users with the 'admin' role
         ->where(function($queryBuilder) use ($query) {
             if ($query) {
@@ -44,7 +44,7 @@ class ProductController extends Controller
     }
     public function searchadmin(Request $request){
         $query = $request->input('input');
-        $users = UserModel::select('id', 'name', 'email', 'role') // Include necessary columns including 'id'
+        $users = UserModel::select('id', 'name', 'email', 'address', 'role') // Include necessary columns including 'id'
             ->where('role', 'admin') // Filter to include only admin users
             ->where(function($queryBuilder) use ($query) {
                 if ($query) {

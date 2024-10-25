@@ -66,7 +66,7 @@
 <header>
     <nav class="navbar navbar-expand-sm bg-black navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{route('main')}}">
                 <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon">Gadget Store
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@
                         <a class="nav-link" href="{{ route('main') }}#about">About</a>
                     </li>  
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('main') }}#features">Features</a>
+                        <a class="nav-link" href="{{ route('main') }}#features">Contact Us</a>
                     </li>                                       
                     <li class="nav-item">
                         <a class="nav-link active" href="{{route('products')}}">Products</a>

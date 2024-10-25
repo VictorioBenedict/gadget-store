@@ -49,6 +49,11 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(56,56,222,1) 0%, rgba
                 text-align: start !important;
             }
         }
+        @media (max-width: 768px) {
+            .header {
+                padding-top: 80px; /* Adjust based on the navbar height */
+            }
+        }
     </style>
 </head>
 <body>

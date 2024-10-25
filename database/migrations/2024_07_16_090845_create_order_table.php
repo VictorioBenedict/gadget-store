@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('quantity');
             $table->decimal('price',10,2);
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'completed'])->default('pending');
             $table->timestamps();
         });
     }

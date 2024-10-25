@@ -18,10 +18,21 @@
             font-family: "Bebas Neue", sans-serif;
         }
         body {
-            background-image: url('assets/background.jpg'); 
-            background-size: cover; 
-            background-position: center; 
+            background-image: url('assets/background.jpg');
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .logo-icon{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
         }
         .card {
             padding: 1rem;
@@ -37,6 +48,35 @@
         }
     </style>
 </head>
+<header>
+    <nav class="navbar navbar-expand-sm bg-black navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{route('main')}}">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="logo-icon">Gadget Store
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ route('main')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('main') }}#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('main') }}#features">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{route('products')}}">Products</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center mt-5">

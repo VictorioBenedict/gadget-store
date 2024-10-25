@@ -163,41 +163,45 @@
 $total = 0;
                             @endphp
                             @forelse($cartItems as $id => $product)
-                            <tr id="product-{{ $id }}">
-                                <td>{{ $product['name'] }}</td>
-                                <td>₱ {{ number_format($product['price'], 2, '.', ',') }}</td>
-                                <td>
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" pattern="[0-9]*" name="quantity" value="{{ $product['quantity'] }}" data-id="{{ $id }}" class="form-control quantity-input text-center" readonly>                                    
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    @if($product['status'] == 'accepted')
-                                        <button type="button" class="btn btn-sm btn-danger" disabled style="color: #ccc;">Cancel</button>
-                                    @else
-                                        <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="{{ $product['id'] }}" style="color: #272829;">Cancel</button>
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    @if(isset($product['status']))
-                                        @if($product['status'] == 'pending')
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        @elseif($product['status'] == 'accepted')
-                                            <span class="badge bg-success text-dark">Accepted</span>
-                                        @elseif($product['status'] == 'rejected')
-                                            <span class="badge bg-danger text-dark">Rejected</span>
-                                        @else
-                                            <span class="badge bg-secondary">Unknown</span>
-                                        @endif
-                                    @else
-                                        <span class="badge bg-secondary">Not Specified</span>
-                                    @endif
-                                </td>
-                                <td id="total-{{ $id }}">{{ '₱ ' . number_format($product['price'] * $product['quantity'], 2, '.', ',') }}</td>
-                            </tr>
-                            @php
-    $total += $product['price'] * $product['quantity'];
-                            @endphp
+                                                        <tr id="product-{{ $id }}">
+                                                            <td>{{ $product['name'] }}</td>
+                                                            <td>₱ {{ number_format($product['price'], 2, '.', ',') }}</td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" pattern="[0-9]*" name="quantity" value="{{ $product['quantity'] }}" data-id="{{ $id }}" class="form-control quantity-input text-center" readonly>                                    
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if($product['status'] == 'accepted')
+                                                                    <button type="button" class="btn btn-sm btn-danger" disabled style="color: #ccc;">Cancel</button>
+                                                                @elseif($product['status'] == 'completed')
+                                                                    <button type="button" class="btn btn-sm btn-danger" disabled style="color: #ccc;">Cancel</button>
+                                                                @else
+                                                                    <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="{{ $product['id'] }}" style="color: #272829;">Cancel</button>
+                                                                @endif
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if(isset($product['status']))
+                                                                    @if($product['status'] == 'pending')
+                                                                        <span class="badge bg-warning text-dark">Pending</span>
+                                                                    @elseif($product['status'] == 'accepted')
+                                                                        <span class="badge bg-success text-dark">Accepted</span>
+                                                                    @elseif($product['status'] == 'rejected')
+                                                                        <span class="badge bg-danger text-dark">Rejected</span>
+                                                                    @elseif($product['status'] == 'completed')
+                                                                        <span class="badge bg-primary text-dark"> Completed</span>
+                                                                    @else
+                                                                        <span class="badge bg-secondary">Unknown</span>
+                                                                    @endif
+                                                                @else
+                                                                    <span class="badge bg-secondary">Not Specified</span>
+                                                                @endif
+                                                            </td>
+                                                            <td id="total-{{ $id }}">{{ '₱ ' . number_format($product['price'] * $product['quantity'], 2, '.', ',') }}</td>
+                                                        </tr>
+                                                        @php
+                                $total += $product['price'] * $product['quantity'];
+                                                        @endphp
                             @empty
                             <tr>
                                 <td colspan="6" class="text-center">You haven't ordered a single item yet.</td>
@@ -291,6 +295,14 @@ $total = 0;
             }
         });
         });
+        @if ($errors->any())
+            Swal.fire({
+                title: "Error!",
+                text: "{{ $errors->first() }}",
+                icon: "error",
+                confirmButtonText: "Okay",
+            });
+        @endif
     </script>
 </body>
 </html>

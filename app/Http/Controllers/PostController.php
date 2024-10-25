@@ -321,8 +321,11 @@ class PostController extends Controller
         elseif($status === 'accepted'){
             $orders = Order::where('status', 'accepted')->paginate(4);
         }
-        else {
+        elseif($status ==='rejected') {
             $orders = Order::where('status', 'rejected')->paginate(4);
+        } 
+        else {
+            $orders = Order::where('status', 'completed')->paginate(4);
         }
         $notification = Order::where('created_at', '>=', now()->subHour())->count();
         $count = Order::count();
@@ -347,7 +350,7 @@ class PostController extends Controller
 
     public function updatestatus(Request $request,$id){
         $request->validate([
-            'status' => 'required|in:pending,accepted,rejected',
+            'status' => 'required|in:pending,accepted,rejected,completed',
         ]);
     
         $order = Order::findOrFail($id);
