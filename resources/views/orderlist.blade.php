@@ -195,7 +195,7 @@
                     Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} results
                 </p>
                 <div>
-                    {{ $orders->links('pagination::bootstrap-4') }}
+                    {{ $orders->appends(request()->query())->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
