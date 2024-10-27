@@ -71,8 +71,8 @@ class PostController extends Controller
     public function dashboard(Request $request){
         $query = $request->input('query');
         $date = Carbon::now()->format('d-m-y'); 
-        $products = GadgetModel::paginate(4); 
-        $notification =  Order::where('created_at','>=',now()->subHour())->count();
+        $products = GadgetModel::paginate(5);
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $count = $products->total(); 
         return view("dashboard", compact('products', 'count', 'date','query','notification'));
     }
@@ -316,33 +316,33 @@ class PostController extends Controller
         $status = $request->input('status', 'pending');
 
         if($status === 'pending'){
-            $orders = Order::where('status','pending')->paginate(4);
+            $orders = Order::where('status','pending')->paginate(5);
         }
         elseif($status === 'accepted'){
-            $orders = Order::where('status', 'accepted')->paginate(4);
+            $orders = Order::where('status', 'accepted')->paginate(5);
         }
         elseif($status ==='rejected') {
-            $orders = Order::where('status', 'rejected')->paginate(4);
+            $orders = Order::where('status', 'rejected')->paginate(5);
         } 
         else {
-            $orders = Order::where('status', 'completed')->paginate(4);
+            $orders = Order::where('status', 'completed')->paginate(5);
         }
-        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $count = Order::count();
         return view ('orderlist',compact('orders','count','notification'));
     }
 
     public function customer(){
         $users = UserModel::where('role', 'user')->select('id', 'name','address')->paginate(5);
-        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $count = Order::count();
         return view('customer', compact('users','count','notification'));
     }
 
     public function customerview(Request $request,$id){
         $user = UserModel::findOrFail($id);
-        $orders = Order::where('user_id', $id)->paginate(4);
-        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $orders = Order::where('user_id', $id)->paginate(5);
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $count = Order::count();
         return view('customerview', compact('user', 'orders', 'count', 'notification'));
 

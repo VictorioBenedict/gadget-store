@@ -16,10 +16,10 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $products = GadgetModel::where('name', 'LIKE', "%{$query}%")->paginate(4);
+        $products = GadgetModel::where('name', 'LIKE', "%{$query}%")->paginate(5);
         $count = GadgetModel::count();
         $date = now()->format('Y-m-d');
-        $notification =  Order::where('created_at','>=',now()->subHour())->count();
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         return view('dashboard', compact('products', 'count', 'date', 'query','notification'));
     }
 
@@ -34,8 +34,8 @@ class ProductController extends Controller
                              ->orWhere('email', 'LIKE', "%{$query}%");
             }
         })
-        ->paginate(4);
-        $notification =  Order::where('created_at','>=',now()->subHour())->count();
+        ->paginate(5);
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 
@@ -52,8 +52,8 @@ class ProductController extends Controller
                                 ->orWhere('email', 'LIKE', "%{$query}%");
                 }
             })
-            ->paginate(4);
-        $notification =  Order::where('created_at','>=',now()->subHour())->count();
+            ->paginate(5);
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $userCount = UserModel::where('role', '!=', 'admin')->count(); 
         $adminCount = UserModel::where('role', 'admin')->count(); 
         $count = $users->total(); 

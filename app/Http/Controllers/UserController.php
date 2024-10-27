@@ -19,8 +19,8 @@ class UserController extends Controller
             ->where('role', '!=', 'admin') 
             ->paginate(5);
         
-        $userCount = UserModel::where('role', '!=', 'admin')->count(); 
-        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $userCount = UserModel::where('role', '!=', 'admin')->count();
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $count = $users->total(); 
         return view('users', compact('users', 'userCount','count','query','notification'));
 
@@ -31,8 +31,8 @@ class UserController extends Controller
         $users = UserModel::select('id', 'name', 'email', 'role','address') 
             ->where('role',  'admin') 
             ->paginate(5);
-        $adminCount = UserModel::where('role', 'admin')->count(); 
-        $notification = Order::where('created_at', '>=', now()->subHour())->count();
+        $adminCount = UserModel::where('role', 'admin')->count();
+        $notification = Order::whereColumn('created_at', 'updated_at')->count();
         $count = $users->total(); 
         return view('admins', compact('users', 'adminCount','count','query','notification'));
 
